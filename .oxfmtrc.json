@@ -1,0 +1,10 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  // Keep the hand-ordered package.json keys (name, version, exports, ...).
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    // README, TUTORIAL and docs/API are hand-wrapped prose rendered by the
+    // docs site; the formatter would churn them without improving anything.
+    "**/*.md"
+  ]
+}

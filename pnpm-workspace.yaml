@@ -1,3 +1,8 @@
 packages:
   - examples/*
   - docs
+
+# Its postinstall would install the git hooks; the `prepare` script already
+# does that, so pnpm does not need to run the package's own build script.
+ignoredBuiltDependencies:
+  - simple-git-hooks
