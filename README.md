@@ -10,7 +10,7 @@
 
 <p align="center">Parallel page transitions for <a class="whitespace-nowrap" href="https://reactrouter.com/" target="_blank">React Router</a> on one shared <a href="https://gsap.com/" target="_blank">GSAP</a> timeline.</p>
 
-> [!WARNING]
+> [!CAUTION]
 > This is an experimental project in alpha stage. Use with caution.
 
 ## Features
@@ -112,7 +112,7 @@ export const config = {
   },
 } satisfies AnimatedOutletProps;
 ```
-> [!INFO]
+> [!NOTE]
 > `choreograph` is the only required prop.
 
 ### Understanding the markup
@@ -134,12 +134,12 @@ The engine renders this, you do not write it:
 | `data-page-incoming` | On the last page while two pages are mounted and its entrance has not completed. |
 | `data-page-initial` | On the first page from server render until the first run has prepared it. <br/> _Only when `initial` is enabled._ |
 
-> [!INFO]
+> [!NOTE]
 > At rest a single page carries no transition attribute.
 
 ## Adding your own styles
 
-*Positioning and stacking are yours.*
+Positioning and stacking are yours.
 
 These CSS rules are a starting point. You can use other solutions based on your needs.
 
