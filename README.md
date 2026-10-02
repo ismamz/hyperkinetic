@@ -374,7 +374,7 @@ Two independent flags, both off when omitted. The guard is `process.env.NODE_ENV
 - **No positioning or scroll.** The engine adds attributes; the application pins the incoming page, orders layers and resets scroll.
 - **Fallback is captured before the resource wait.** Scopes registered later, portals outside the page container and shadow DOM do not change the selection.
 - **Resources.** Only `instanceof Promise` values are awaited; a timeout or rejection lets the run continue without cancelling the work.
-- **Exceptions.** A callback that throws, including an unknown `enterAt` label or an `onIssue` that throws, rejects the run with no handler. Nothing plays, no completion hook runs and both pages stay mounted until the next navigation. Keep callbacks non-throwing.
+- **Exceptions.** An unknown `enterAt` label or a callback that throws during the async run rejects it. The engine reverts the timeline and keeps the incoming page as the only mounted page; completion hooks do not run. Keep callbacks non-throwing. Errors thrown by the synchronous `before` hooks still propagate through React.
 - **Property ownership.** One controller per animated property on an element; do not animate the same property from `choreograph`, a recipe and the fallback at once.
 - **Coverage.** Verified with `examples/basic` on the versions listed under installation. No other combination is claimed.
 
