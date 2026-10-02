@@ -112,6 +112,13 @@ a {
   margin: 0 0 1rem;
 }
 
+.prose h1 + p {
+  font-size: 1.5rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
 .prose h2 {
   font-size: 1.5rem;
   letter-spacing: -0.02em;
