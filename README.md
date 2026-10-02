@@ -8,11 +8,15 @@ Alpha. React Router and GSAP only; one animated outlet per application.
 
 ## Installation
 
-The package is not published to npm. Install a fixed commit from GitHub:
+The package is not published to npm. Install a fixed commit from GitHub by writing the pinned specifier in `package.json` and running `pnpm install`:
 
-```sh
-pnpm add '@ismamz/react-router-choreo@github:ismamz/react-router-choreo#<commit-sha>'
+```json
+"dependencies": {
+  "@ismamz/react-router-choreo": "github:ismamz/react-router-choreo#<commit-sha>"
+}
 ```
+
+Write it by hand rather than through `pnpm add`: with pnpm 10, `pnpm add '...#<commit-sha>'` records the commit in the lockfile only and saves an unpinned Git URL to `package.json`.
 
 Git installs compile the package through its `prepare` script. pnpm 10 blocks dependency build scripts unless they are allowed, so add this entry to the consuming project's `pnpm-workspace.yaml` before installing, merging it with any existing allowlist, and commit it with the dependency and lockfile:
 
