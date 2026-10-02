@@ -1,10 +1,10 @@
 import gsap from "gsap";
 import { useRef } from "react";
 
-import { usePageTransition, type AnimatedOutletProps } from "@ismamz/hyperkinetic";
+import { usePageTransition, type AnimatedOutletProps } from "hyperkinetic";
 
 import { Log, ReadyProbe, mount, outletProps, waitFor, type Check } from "../support";
-import { useEnterReady } from "@ismamz/hyperkinetic";
+import { useEnterReady } from "hyperkinetic";
 
 // The README's recommended recipe/choreograph/fallback/resources snippets,
 // copied verbatim. Keep both in sync: this check is what lets the README call

@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { useRef } from "react";
 
-import { usePageTransition } from "@ismamz/hyperkinetic";
+import { usePageTransition } from "hyperkinetic";
 
 import { cn, useIsoLayoutEffect } from "@/lib/utils";
 

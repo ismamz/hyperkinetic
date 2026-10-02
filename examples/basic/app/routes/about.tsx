@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
 import { Link } from "react-router";
 
-import { usePageTransition } from "@ismamz/hyperkinetic";
+import { usePageTransition } from "hyperkinetic";
 
 import { AnimatedTitle } from "@/components/animated-title";
 import { Footer } from "@/components/footer";

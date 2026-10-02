@@ -1,6 +1,6 @@
 import { gsap } from "gsap";
 
-import type { AnimatedOutletProps } from "@ismamz/hyperkinetic";
+import type { AnimatedOutletProps } from "hyperkinetic";
 
 export const config = {
   // Switches de depuración, apagados salvo que se pida por entorno; sólo

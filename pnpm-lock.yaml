@@ -90,9 +90,6 @@ importers:
 
   examples/basic:
     dependencies:
-      '@ismamz/hyperkinetic':
-        specifier: workspace:*
-        version: link:../..
       '@react-router/fs-routes':
         specifier: 8.4.0
         version: 8.4.0(@react-router/dev@8.4.0(react-router@8.4.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(typescript@5.9.3)(vite@8.0.13(@types/node@22.19.19)(jiti@2.7.0)))(typescript@5.9.3)
@@ -102,6 +99,9 @@ importers:
       gsap:
         specifier: 3.15.0
         version: 3.15.0
+      hyperkinetic:
+        specifier: workspace:*
+        version: link:../..
       isbot:
         specifier: ^5
         version: 5.2.2

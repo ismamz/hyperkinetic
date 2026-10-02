@@ -10,7 +10,7 @@ import {
   usePersistentTransition,
   type AnimatedOutletProps,
   type PageTransition,
-} from "@ismamz/hyperkinetic";
+} from "hyperkinetic";
 
 // ---------------------------------------------------------------------------
 // Assertions. Each check collects failures instead of throwing on the first

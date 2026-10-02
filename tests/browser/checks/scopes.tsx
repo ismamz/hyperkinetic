@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 
-import { usePersistentTransition } from "@ismamz/hyperkinetic";
+import { usePersistentTransition } from "hyperkinetic";
 
 import { Block, Log, gsap, mount, outletProps, sleep, type Check } from "../support";
 

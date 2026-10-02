@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import { usePageTransition } from "@ismamz/hyperkinetic";
+import { usePageTransition } from "hyperkinetic";
 
 export function useHeroTransition() {
   const eyebrow = useRef<HTMLParagraphElement>(null);
