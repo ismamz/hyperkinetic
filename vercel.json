@@ -1,0 +1,11 @@
+{
+  "buildCommand": "pnpm build:docs",
+  "outputDirectory": "docs/build/client",
+  "rewrites": [{ "source": "/basic/:path*", "destination": "/basic/index.html" }],
+  "headers": [
+    {
+      "source": "/basic/:path*",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ]
+}
