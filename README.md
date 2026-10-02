@@ -22,13 +22,6 @@ Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothin
 
 The ranges are not a claim that every version in them was tested.
 
-Inside this repository, `examples/basic` consumes the package through the pnpm workspace:
-
-```sh
-pnpm install
-pnpm dev
-```
-
 ## Mounting the outlet
 
 Replace the `<Outlet />` of a layout that stays mounted while its child routes change with `<AnimatedOutlet />`. Render exactly one. Keep navigating with React Router's `Link` and `navigate`. Do not mount `<ScrollRestoration />` next to it: it restores scroll while the outgoing page is still visible, so scroll policy belongs in the lifecycle hooks.
@@ -367,7 +360,7 @@ Two independent flags, both off when omitted. The guard is `process.env.NODE_ENV
 
 ```sh
 pnpm install
-pnpm dev              # builds the package and runs examples/basic
+pnpm dev              # builds the package and runs examples/basic, which consumes it through the pnpm workspace
 pnpm typecheck
 pnpm typecheck:basic
 pnpm test             # unit, browser contract, production debug guard
