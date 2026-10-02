@@ -8,8 +8,12 @@ Alpha. React Router and GSAP only; one animated outlet per application.
 
 ## Installation
 
+Start from a React Router app (Vite), then add GSAP and the engine in one command:
+
 ```sh
-pnpm add hyperkinetic
+pnpm create react-router@latest my-app
+cd my-app
+pnpm add gsap hyperkinetic
 ```
 
 Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothing else.
