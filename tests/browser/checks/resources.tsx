@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { usePageTransition, useTransitionResource, type ResourceIssue } from "@ismamz/hyperkinetic";
+import { usePageTransition, useTransitionResource, type ResourceIssue } from "hyperkinetic";
 
 import { Block, Log, mount, outletProps, sleep, type Check } from "../support";
 

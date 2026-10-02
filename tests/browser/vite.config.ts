@@ -15,7 +15,7 @@ export default defineConfig({
     // node_modules entry here. Point it at the built output: that is what the
     // workspace link resolved to when the harness lived in examples/basic, and
     // the test scripts build before running.
-    alias: { "@ismamz/hyperkinetic": here("../../dist/index.js") },
+    alias: { "hyperkinetic": here("../../dist/index.js") },
   },
   server: { port: 5199, strictPort: true, open: false },
   optimizeDeps: { include: ["react", "react-dom/client", "react-router", "gsap", "gsap/GSDevTools"] },

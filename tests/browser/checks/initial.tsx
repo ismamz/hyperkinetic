@@ -1,4 +1,4 @@
-import { useEnterReady } from "@ismamz/hyperkinetic";
+import { useEnterReady } from "hyperkinetic";
 
 import { Block, Log, Persistent, ReadyProbe, mount, outletProps, waitFor, type Check } from "../support";
 

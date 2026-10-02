@@ -1,9 +1,8 @@
 {
-  "name": "@ismamz/hyperkinetic",
+  "name": "hyperkinetic",
   "version": "0.1.0-alpha.0",
-  "private": true,
   "description": "Parallel page transitions for React Router on one shared GSAP timeline.",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -25,7 +24,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepare": "npm run build",
+    "prepublishOnly": "pnpm build",
     "dev": "pnpm dev:example",
     "dev:example": "pnpm build && pnpm --filter \"$FILTER\" dev",
     "build:example": "pnpm build && pnpm --filter \"$FILTER\" build",
