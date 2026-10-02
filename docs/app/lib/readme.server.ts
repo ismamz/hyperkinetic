@@ -26,14 +26,26 @@ export async function readme() {
   const all = md.lexer(source);
 
   // contributor notes stay in the README but not on the site
-  const start = all.findIndex((t) => t.type === "heading" && t.depth === 2 && t.text === "Development");
+  const start = all.findIndex(
+    (t) => t.type === "heading" && t.depth === 2 && t.text === "Development",
+  );
   const end = all.findIndex((t, i) => i > start && t.type === "heading" && t.depth <= 2);
   const tokens = Object.assign(
     start < 0 ? all : [...all.slice(0, start), ...(end < 0 ? [] : all.slice(end))],
     { links: all.links },
   );
 
-  const supported = new Set(["heading", "paragraph", "list", "table", "code", "space", "hr", "blockquote", "html"]);
+  const supported = new Set([
+    "heading",
+    "paragraph",
+    "list",
+    "table",
+    "code",
+    "space",
+    "hr",
+    "blockquote",
+    "html",
+  ]);
   for (const t of tokens) {
     if (!supported.has(t.type)) throw new Error(`readme: unsupported block "${t.type}"`);
   }
@@ -65,7 +77,8 @@ export async function readme() {
     renderer: {
       blockquote(t) {
         const [tag, ...rest] = t.tokens;
-        const admonition = tag?.type === "paragraph" ? /^\[!(NOTE|INFO|WARNING|CAUTION)\]\s*/.exec(tag.text) : null;
+        const admonition =
+          tag?.type === "paragraph" ? /^\[!(NOTE|INFO|WARNING|CAUTION)\]\s*/.exec(tag.text) : null;
         const text = admonition ? tag.text.slice(admonition[0].length) : "";
         if (
           admonition &&
@@ -81,9 +94,7 @@ export async function readme() {
             tone === "info" || tone === "note"
               ? "text-sky-700 dark:text-sky-300"
               : "text-[#806000] dark:text-[khaki]";
-          const first = text
-            ? [{ ...tag, text, tokens: Lexer.lexInline(text) }]
-            : [];
+          const first = text ? [{ ...tag, text, tokens: Lexer.lexInline(text) }] : [];
           return `<aside class="mb-6 flex flex-col gap-2 border-l-2 bg-neutral-100 py-3 ps-5 pe-3 [&_p]:m-0 dark:bg-neutral-950 ${toneClasses}"><p class="font-mono text-xs uppercase ${labelClasses}">${tone}</p>${this.parser.parse([...first, ...rest])}</aside>`;
         }
         return `<blockquote>${this.parser.parse(t.tokens)}</blockquote>`;

@@ -57,7 +57,11 @@ const readmeProps = {
       tl.to(targets, { autoAlpha: 0, duration: reduced ? 0 : 0.35 }, position);
     },
     enter: (tl, { targets, position, reduced }) => {
-      tl.to(targets, { autoAlpha: 1, duration: reduced ? 0 : 0.7, clearProps: "opacity,visibility" }, position);
+      tl.to(
+        targets,
+        { autoAlpha: 1, duration: reduced ? 0 : 0.7, clearProps: "opacity,visibility" },
+        position,
+      );
     },
   },
   resources: {
@@ -107,12 +111,24 @@ export const readme: Check = {
     try {
       await fx.navigate("/b");
       await waitFor(() => log.events("b-probe").includes("ready:true"), "ready() at content-in");
-      t.equal(log.find("outlet", "afterEnter"), undefined, "latch released before the run finished");
+      t.equal(
+        log.find("outlet", "afterEnter"),
+        undefined,
+        "latch released before the run finished",
+      );
       await fx.settled();
 
       t.close(measured.contentIn, 0.15, "content-in label");
-      t.close(measured.titlesIn, 0.3, "titles-in waits for the real end of the outgoing title (0.3)");
-      t.close(measured.exitsEnd, 0.35, "tl.duration() inside choreograph is the end of all exits (fallback 0.35)");
+      t.close(
+        measured.titlesIn,
+        0.3,
+        "titles-in waits for the real end of the outgoing title (0.3)",
+      );
+      t.close(
+        measured.exitsEnd,
+        0.35,
+        "tl.duration() inside choreograph is the end of all exits (fallback 0.35)",
+      );
       // The title owns both directions, so the fallback animates its siblings only.
       t.deepEqual(targets.leave, ["a-body"], "fallback leave targets");
       t.deepEqual(targets.enter, ["b-body", "b-probe-ready"], "fallback enter targets");

@@ -165,7 +165,9 @@ const consoleErrors = [];
 cdp.on((msg) => {
   if (msg.sessionId !== sessionId) return;
   if (msg.method === "Runtime.exceptionThrown") {
-    consoleErrors.push(msg.params.exceptionDetails.exception?.description ?? msg.params.exceptionDetails.text);
+    consoleErrors.push(
+      msg.params.exceptionDetails.exception?.description ?? msg.params.exceptionDetails.text,
+    );
   } else if (msg.method === "Runtime.consoleAPICalled" && msg.params.type === "error") {
     consoleErrors.push(msg.params.args.map((a) => a.value ?? a.description ?? "").join(" "));
   }
@@ -177,7 +179,11 @@ let harness = null;
 while (Date.now() - start < timeoutMs) {
   const { result } = await cdp.send(
     "Runtime.evaluate",
-    { expression: "window.__harness && window.__harness.done ? JSON.stringify(window.__harness) : null", returnByValue: true },
+    {
+      expression:
+        "window.__harness && window.__harness.done ? JSON.stringify(window.__harness) : null",
+      returnByValue: true,
+    },
     sessionId,
   );
   if (result.value) {
@@ -191,7 +197,9 @@ cdp.close();
 cleanup();
 
 if (!harness) {
-  console.error(`Harness did not finish within ${timeoutMs}ms. Console errors:\n${consoleErrors.join("\n")}`);
+  console.error(
+    `Harness did not finish within ${timeoutMs}ms. Console errors:\n${consoleErrors.join("\n")}`,
+  );
   process.exit(1);
 }
 
@@ -205,6 +213,9 @@ for (const r of harness.results) {
 if (harness.errors.length) console.log(`window errors:\n  ${harness.errors.join("\n  ")}`);
 // React logs act() warnings and the harness' own expected rejection here; only
 // unexpected ones matter, so they are printed, not counted.
-if (consoleErrors.length) console.log(`console errors (${consoleErrors.length}):\n  ${consoleErrors.join("\n  ").slice(0, 4000)}`);
+if (consoleErrors.length)
+  console.log(
+    `console errors (${consoleErrors.length}):\n  ${consoleErrors.join("\n  ").slice(0, 4000)}`,
+  );
 console.log(`\n${harness.results.length - failed}/${harness.results.length} checks passed`);
 process.exit(failed ? 1 : 0);

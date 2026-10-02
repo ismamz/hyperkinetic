@@ -6,7 +6,9 @@ import type { HookData, ResourceFn } from "../../dist/types.js";
 
 // The timeout timer is scheduled through `window.setTimeout`; Node has no
 // window, so only that one function is provided.
-(globalThis as { window?: unknown }).window = { setTimeout: globalThis.setTimeout.bind(globalThis) };
+(globalThis as { window?: unknown }).window = {
+  setTimeout: globalThis.setTimeout.bind(globalThis),
+};
 
 const data = { initial: false, interrupted: false } as HookData;
 const defer = <T>() => {

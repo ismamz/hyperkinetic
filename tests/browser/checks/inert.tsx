@@ -26,7 +26,10 @@ export const inert: Check = {
       t.ok(wrapper, "data-wrapper container rendered");
       const rest = fx.pages()[0]!;
       t.ok(!rest.hasAttribute("inert"), "page at rest is not inert");
-      t.ok(!rest.hasAttribute("data-page-outgoing") && !rest.hasAttribute("data-page-incoming"), "no phase marks at rest");
+      t.ok(
+        !rest.hasAttribute("data-page-outgoing") && !rest.hasAttribute("data-page-incoming"),
+        "no phase marks at rest",
+      );
 
       await fx.navigate("/b");
       await waitFor(() => fx.pages().length === 2, "two pages");
@@ -36,7 +39,10 @@ export const inert: Check = {
       t.ok(!outgoing.hasAttribute("data-page-incoming"), "outgoing has no incoming mark");
       t.ok(!incoming.hasAttribute("inert"), "incoming page is interactive");
       t.ok(incoming.hasAttribute("data-page-incoming"), "incoming mark");
-      t.ok(outgoing.querySelector('[data-testid="a-button"]'), "outgoing keeps the frozen previous tree");
+      t.ok(
+        outgoing.querySelector('[data-testid="a-button"]'),
+        "outgoing keeps the frozen previous tree",
+      );
       t.ok(incoming.querySelector('[data-testid="b-button"]'), "incoming renders the new tree");
       // Focus cannot land inside an inert subtree.
       const aButton = outgoing.querySelector<HTMLButtonElement>('[data-testid="a-button"]')!;

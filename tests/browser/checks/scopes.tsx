@@ -40,8 +40,14 @@ export const scopes: Check = {
       t.equal(aMark.style.color, "rgb(9, 9, 9)", "outgoing leave reached its own .mark");
       t.equal(bMark.style.color, "rgb(1, 2, 3)", "incoming enter reached its own .mark");
       // The incoming enter's `.mark` selector never touched the sibling page.
-      t.ok(aMark.style.color !== "rgb(1, 2, 3)", "incoming selector did not reach the outgoing page");
-      t.ok(bMark.style.color !== "rgb(9, 9, 9)", "outgoing selector did not reach the incoming page");
+      t.ok(
+        aMark.style.color !== "rgb(1, 2, 3)",
+        "incoming selector did not reach the outgoing page",
+      );
+      t.ok(
+        bMark.style.color !== "rgb(9, 9, 9)",
+        "outgoing selector did not reach the incoming page",
+      );
       await fx.settled();
     } finally {
       fx.unmount();

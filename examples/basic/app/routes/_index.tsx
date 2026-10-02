@@ -16,10 +16,11 @@ export default function Home() {
       <main className="container pt-4 pb-10 sm:pt-6 sm:pb-16">
         <section className="hero-height relative flex flex-col justify-between overflow-hidden border border-black p-7 sm:p-12">
           <div className="relative">
-            <p ref={eyebrow} className="mb-5 text-xs tracking-[0.2em]">INDEX</p>
+            <p ref={eyebrow} className="mb-5 text-xs tracking-[0.2em]">
+              INDEX
+            </p>
             <AnimatedTitle className="max-w-none text-[clamp(3rem,9vw,7.5rem)] leading-[0.9]">
-              Page transitions on a{" "}
-              <br className="hidden sm:block" />
+              Page transitions on a <br className="hidden sm:block" />
               single GSAP timeline
             </AnimatedTitle>
           </div>

@@ -22,7 +22,11 @@ export const persistent: Check = {
           <Persistent log={log} who="header" duration={0.1} />
         </>
       ),
-      routes: { "/a": <Block log={log} who="a" />, "/b": <Block log={log} who="b" />, "/c": <Block log={log} who="c" /> },
+      routes: {
+        "/a": <Block log={log} who="a" />,
+        "/b": <Block log={log} who="b" />,
+        "/c": <Block log={log} who="c" />,
+      },
       outlet: outletProps(log, {
         choreograph: (d) => {
           ends.push(d.leaveEnd("scene"));
@@ -37,12 +41,21 @@ export const persistent: Check = {
       await fx.navigate("/c");
       await fx.settled();
       const perRun = ["prepare", "leave", "enter", "complete"];
-      t.deepEqual(log.events("scene"), [...perRun, ...perRun], "scene recipe ran fully on both transitions");
-      t.deepEqual(log.events("header"), [...perRun, ...perRun], "header recipe ran fully on both transitions");
+      t.deepEqual(
+        log.events("scene"),
+        [...perRun, ...perRun],
+        "scene recipe ran fully on both transitions",
+      );
+      t.deepEqual(
+        log.events("header"),
+        [...perRun, ...perRun],
+        "header recipe ran fully on both transitions",
+      );
       t.close(ends[0]!, 0.3, "persistent group end measured on run 1");
       t.close(ends[1]!, 0.3, "persistent group end measured on run 2");
       for (const e of log.entries.filter((e) => e.who === "scene" || e.who === "header")) {
-        if (e.event === "leave" || e.event === "enter") t.ok(e.tl, `${e.who}.${e.event} received the timeline`);
+        if (e.event === "leave" || e.event === "enter")
+          t.ok(e.tl, `${e.who}.${e.event} received the timeline`);
       }
       t.equal(log.timelines().size, 2, "one master timeline per navigation");
 

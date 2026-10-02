@@ -31,19 +31,38 @@ export const debugRetain: Check = {
       const [outgoing, incoming] = fx.pages() as [HTMLElement, HTMLElement];
       t.ok(outgoing.hasAttribute("inert"), "retained outgoing stays inert");
       t.ok(outgoing.hasAttribute("data-page-outgoing"), "retained outgoing keeps its mark");
-      t.ok(!incoming.hasAttribute("data-page-incoming"), "retained incoming lost its incoming mark");
-      t.equal(log.find("outlet", "after"), undefined, "after does not run while pages are retained");
+      t.ok(
+        !incoming.hasAttribute("data-page-incoming"),
+        "retained incoming lost its incoming mark",
+      );
+      t.equal(
+        log.find("outlet", "after"),
+        undefined,
+        "after does not run while pages are retained",
+      );
       t.ok(log.find("b", "complete"), "complete ran");
-      t.deepEqual(log.events("b-probe"), ["ready:false", "ready:true"], "retained incoming page is entered/ready");
+      t.deepEqual(
+        log.events("b-probe"),
+        ["ready:false", "ready:true"],
+        "retained incoming page is entered/ready",
+      );
 
       await fx.navigate("/c");
       await waitFor(() => log.all("outlet", "afterEnter").length === 2, "second afterEnter");
       await sleep(50);
       const second = log.all("outlet", "choreograph")[1]!;
-      t.equal(second.interrupted, false, "navigation after a retained completion is not interrupted");
+      t.equal(
+        second.interrupted,
+        false,
+        "navigation after a retained completion is not interrupted",
+      );
       t.equal(second.from, "/b", "retained incoming became the outgoing page");
       t.equal(fx.pages().length, 2, "still two pages: the oldest retained page was dropped");
-      t.equal(fx.container.querySelector('[data-testid="a"]'), null, "first page dropped on the next navigation");
+      t.equal(
+        fx.container.querySelector('[data-testid="a"]'),
+        null,
+        "first page dropped on the next navigation",
+      );
       t.ok(fx.container.querySelector('[data-testid="b"]'), "previous incoming kept as outgoing");
       t.ok(fx.container.querySelector('[data-testid="c"]'), "new incoming mounted");
     } finally {
@@ -59,7 +78,11 @@ export const debugDevTools: Check = {
     const panels = () => document.querySelectorAll(".gs-dev-tools").length;
     t.equal(panels(), 0, "no panel before the check");
     const fx = mount({
-      routes: { "/a": <Block log={log} who="a" />, "/b": <Block log={log} who="b" />, "/c": <Block log={log} who="c" /> },
+      routes: {
+        "/a": <Block log={log} who="a" />,
+        "/b": <Block log={log} who="b" />,
+        "/c": <Block log={log} who="c" />,
+      },
       outlet: outletProps(log, { debug: { devTools: true } }),
     });
     try {
@@ -78,6 +101,8 @@ export const debugDevTools: Check = {
     }
     await sleep(16);
     t.equal(panels(), 0, "panel removed on unmount");
-    t.note("GSDevTools registration leaves global GSAP side effects (globalTimeline.autoRemoveChildren=false)");
+    t.note(
+      "GSDevTools registration leaves global GSAP side effects (globalTimeline.autoRemoveChildren=false)",
+    );
   },
 };

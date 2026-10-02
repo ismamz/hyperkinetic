@@ -70,7 +70,9 @@ export default function About() {
       <main className="container pt-4 pb-10 sm:pt-6 sm:pb-16">
         <section className="hero-height relative flex flex-col justify-between overflow-hidden bg-black p-7 text-white sm:p-12">
           <div className="relative">
-            <p ref={eyebrow} className="mb-5 text-xs tracking-[0.2em]">ABOUT</p>
+            <p ref={eyebrow} className="mb-5 text-xs tracking-[0.2em]">
+              ABOUT
+            </p>
             <AnimatedTitle>
               Pages move.
               <br />
@@ -101,9 +103,7 @@ export default function About() {
                 </div>
               </div>
               <span className="text-xs tracking-[0.16em]">CHOREOGRAPHY</span>
-              <p className="sr-only">
-                Sets the shared timeline, labels and page-wide motion.
-              </p>
+              <p className="sr-only">Sets the shared timeline, labels and page-wide motion.</p>
             </li>
             <li className="flex flex-col items-center gap-6">
               <div aria-hidden="true" className="flex h-52 w-full items-center justify-center">

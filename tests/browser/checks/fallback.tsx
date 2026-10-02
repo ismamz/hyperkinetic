@@ -72,7 +72,11 @@ export const fallback: Check = {
       await fx2.navigate("/b");
       await fx2.settled();
       // Nothing is scoped, so the page container itself is the single target.
-      t.deepEqual(calls, ["prepare", "enter:div"], "leave:false disables leave; enter claims the page container");
+      t.deepEqual(
+        calls,
+        ["prepare", "enter:div"],
+        "leave:false disables leave; enter claims the page container",
+      );
     } finally {
       fx2.unmount();
     }

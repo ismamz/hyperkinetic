@@ -64,10 +64,17 @@ export const resources: Check = {
       await fx.navigate("/b");
       await sleep(100);
       t.equal(fx.pages().length, 2, "both pages mounted during the wait");
-      t.equal(log.find("outlet", "choreograph"), undefined, "choreograph not called while a resource is pending");
+      t.equal(
+        log.find("outlet", "choreograph"),
+        undefined,
+        "choreograph not called while a resource is pending",
+      );
       t.ok(log.find("outlet", "beforeEnter"), "before hooks ran before the wait");
       t.ok(log.find("b", "prepare"), "incoming recipe prepared before the wait");
-      t.ok(log.find("late", "prepare"), "recipe registered during the wait was prepared on the spot");
+      t.ok(
+        log.find("late", "prepare"),
+        "recipe registered during the wait was prepared on the spot",
+      );
       t.equal(fx.pages()[0]!.style.opacity, "", "outgoing page untouched while waiting");
       gate.resolve();
       await fx.settled();
@@ -79,7 +86,11 @@ export const resources: Check = {
       mode = "timeout";
       await fx.navigate("/c");
       await fx.settled(2000);
-      t.deepEqual(issues.map((i) => i.reason), ["timeout"], "timeout reported once");
+      t.deepEqual(
+        issues.map((i) => i.reason),
+        ["timeout"],
+        "timeout reported once",
+      );
       t.equal(log.all("outlet", "after").length, 2, "transition completed after the timeout");
 
       // Rejection: error issue carries the error.
@@ -101,7 +112,11 @@ export const resources: Check = {
       await fx.navigate("/c");
       await fx.settled();
       t.equal(issues.length, 3, "a ready resource reports nothing");
-      t.equal(log.all("resource", "called:ready").length, 1, "resource consulted once per transition");
+      t.equal(
+        log.all("resource", "called:ready").length,
+        1,
+        "resource consulted once per transition",
+      );
 
       // Interrupted during the wait: the stale run must not continue.
       mode = "pending";
@@ -115,7 +130,11 @@ export const resources: Check = {
       gate.resolve();
       await sleep(50);
       const after = log.all("outlet", "choreograph").slice(choreos);
-      t.deepEqual(after.map((e) => e.to), ["/b"], "the run interrupted during its wait never choreographed");
+      t.deepEqual(
+        after.map((e) => e.to),
+        ["/b"],
+        "the run interrupted during its wait never choreographed",
+      );
       t.equal(after[0]?.interrupted, true, "navigation during the wait is reported as interrupted");
       t.equal(issues.length, 3, "stale run reported no issue");
     } finally {
@@ -128,7 +147,9 @@ export const resources: Check = {
     const calls: string[] = [];
     function PageResource({ name }: { name: string }) {
       const ref = useRef<HTMLDivElement>(null);
-      useTransitionResource((d) => void calls.push(`${name}:${d.current.pathname}->${d.next.pathname}`));
+      useTransitionResource(
+        (d) => void calls.push(`${name}:${d.current.pathname}->${d.next.pathname}`),
+      );
       usePageTransition({ scope: ref });
       return <div ref={ref}>{name}</div>;
     }
@@ -143,7 +164,11 @@ export const resources: Check = {
       await fx2.settled();
       // Both pages are mounted when resources are collected, so both answer on
       // the first navigation; on the second only b remains.
-      t.deepEqual(calls, ["a:/a->/b", "b:/a->/b", "b:/b->/c"], "page resources follow their page's mount");
+      t.deepEqual(
+        calls,
+        ["a:/a->/b", "b:/a->/b", "b:/b->/c"],
+        "page resources follow their page's mount",
+      );
     } finally {
       fx2.unmount();
     }
