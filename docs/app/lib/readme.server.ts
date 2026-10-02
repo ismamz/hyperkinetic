@@ -19,6 +19,7 @@ const slug = (text: string) =>
 export async function readme() {
   // the README centers its header with HTML for GitHub; the site lays it out itself
   const source = (await readFile(new URL("../../../README.md", import.meta.url), "utf8"))
+    .replace(/<p align="center">\s*<picture>[\s\S]*?<\/picture>\s*<\/p>/, "")
     .replace(/<h1 align="center">(.*?)<\/h1>/, "# $1")
     .replace(/<p align="center">(.*?)<\/p>/, "$1");
   const md = new Marked({ async: true });

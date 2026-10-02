@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // The debug flags are development-only: a production build of examples/basic
-// must not contain GSDevTools nor the panel id. Run after `pnpm build:basic`.
+// must not contain GSDevTools nor the panel id. Run after
+// `FILTER=basic pnpm build:example`.
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,7 +9,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const assets = join(root, "examples/basic/build/client/assets");
 if (!existsSync(assets)) {
-  console.error(`Missing ${assets}. Run: pnpm build:basic`);
+  console.error(`Missing ${assets}. Run: FILTER=basic pnpm build:example`);
   process.exit(2);
 }
 const forbidden = ["GSDevTools", "gs-dev-tools", "page-transition"];
