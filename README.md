@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/logo-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset=".github/logo.svg">
-    <img alt="Hyperkinetic" src=".github/logo.svg" width="100">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ismamz/hyperkinetic/main/.github/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ismamz/hyperkinetic/main/.github/logo.svg">
+    <img alt="Hyperkinetic" src="https://raw.githubusercontent.com/ismamz/hyperkinetic/main/.github/logo.svg" width="100">
   </picture>
 </p>
 
@@ -17,13 +17,13 @@
 
 * **Parallel**: outgoing and incoming routes stay mounted together while they animate.
 * **Single timeline**: every navigation creates one paused GSAP timeline.
-* The engine owns page lifetimes and timeline playback.
-* The application owns motion, scroll, positioning and layers.
-* **Zero dependencies**: React Router + GSAP are peer dependencies.
+* **Engine**: owns page lifetimes and timeline playback.
+* **Application**: owns motion, scroll, positioning and layers.
+* **Zero dependencies**: React, React Router and GSAP are peer dependencies.
 
 ## Installation
 
-**In a existing React Router project:**
+**In an existing React Router project:**
 
 ```sh
 pnpm add hyperkinetic
@@ -132,7 +132,7 @@ The engine renders this, you do not write it:
 | `data-page` | Always, on every page container (`current.container` and `next.container`) |
 | <code class="whitespace-nowrap">data-page-outgoing</code> | On the first page while two pages are mounted. [`inert`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert) for accessibility. |
 | `data-page-incoming` | On the last page while two pages are mounted and its entrance has not completed. |
-| `data-page-initial` | On the first page from server render until the first run has prepared it. <br/> _Only when `initial` is enabled._ |
+| `data-page-initial` | On the first page from server render until the first run has prepared it. <br/> _Only when `initial` is enabled (the default)._ |
 
 > [!NOTE]
 > At rest a single page carries no transition attribute.
@@ -144,7 +144,7 @@ Positioning and stacking are yours.
 These CSS rules are a starting point. You can use other solutions based on your needs.
 
 ```css
-/* Ensure incoming and outcoming pages are overlapped. */
+/* Ensure incoming and outgoing pages are overlapped. */
 [data-wrapper] {
   display: grid;
 }
@@ -180,7 +180,7 @@ The hook registers a local _recipe_ on the same timeline created by `<AnimatedOu
 * `enter` contributes while the next page is coming in
 
 ```tsx
-// @app/components/animated-title.tsx
+// app/components/animated-title.tsx
 
 import { useRef } from "react";
 
@@ -256,7 +256,7 @@ export function PersistentComponent() {
 
 ## API
 
-The full runtime reference lives in [docs/API.md](docs/API.md).
+The full runtime reference lives in [docs/API.md](https://github.com/ismamz/hyperkinetic/blob/main/docs/API.md).
 
 ## Development
 
