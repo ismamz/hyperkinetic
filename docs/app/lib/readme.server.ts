@@ -19,7 +19,15 @@ const slug = (text: string) =>
 export async function readme() {
   const source = await readFile(new URL("../../../README.md", import.meta.url), "utf8");
   const md = new Marked({ async: true });
-  const tokens = md.lexer(source);
+  const all = md.lexer(source);
+
+  // contributor notes stay in the README but not on the site
+  const start = all.findIndex((t) => t.type === "heading" && t.depth === 2 && t.text === "Development");
+  const end = all.findIndex((t, i) => i > start && t.type === "heading" && t.depth <= 2);
+  const tokens = Object.assign(
+    start < 0 ? all : [...all.slice(0, start), ...(end < 0 ? [] : all.slice(end))],
+    { links: all.links },
+  );
 
   const supported = new Set(["heading", "paragraph", "list", "table", "code", "space", "hr"]);
   for (const t of tokens) {
