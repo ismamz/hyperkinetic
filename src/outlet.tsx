@@ -353,9 +353,16 @@ export function AnimatedOutlet({
       dispatch({ type: "ENTERED_AND_TRIM", key: incoming.key });
     };
 
-    // `void`: the promise is deliberately dropped. Errors and cancellation are
-    // handled inside `run` and in the cleanup.
-    void run();
+    // A failed run still releases the outgoing page. Surface the configuration
+    // error, but do not leave the outlet stuck with two pages.
+    void run().catch((error) => {
+      if (cancelled || isStale()) return;
+      if (preparingRef.current?.key === incoming.key) preparingRef.current = null;
+      devTools?.kill();
+      tl?.revert();
+      dispatch({ type: "ENTERED_AND_TRIM", key: incoming.key });
+      throw error;
+    });
 
     // A new navigation (gen changes → effect re-runs) or an unmount aborts
     // this run.

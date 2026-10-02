@@ -69,8 +69,7 @@ export const groups: Check = {
       fx.unmount();
     }
 
-    // Unknown label: the run rejects. Documented limit: nothing catches it, so
-    // the outlet is left mid-transition. We only assert the failure surfaces.
+    // Unknown label: the run rejects, but the outlet must recover to one page.
     const log2 = new Log();
     const rejections: string[] = [];
     const onRejection = (e: PromiseRejectionEvent) => {
@@ -87,8 +86,13 @@ export const groups: Check = {
       await sleep(100);
       t.deepEqual(rejections, ["Unknown page transition label: missing"], "unknown enterAt label rejects the run");
       t.equal(log2.find("outlet", "afterEnter"), undefined, "the failed run never completes");
-      t.equal(fx2.pages().length, 2, "documented limit: both pages stay mounted after the failure");
-      t.note("unknown label leaves the outlet with two pages and no trim (no catch around run())");
+      await fx2.settled(500);
+      t.equal(fx2.pages()[0]?.textContent, "b", "incoming page survives a failed run");
+      t.ok(!fx2.pages()[0]?.hasAttribute("inert"), "surviving page is interactive");
+      t.equal(fx2.pages()[0]?.style.opacity, "", "failed timeline restores inline styles");
+      await fx2.navigate("/a");
+      await fx2.settled();
+      t.equal(fx2.pages()[0]?.textContent, "a", "a later navigation still completes");
     } finally {
       window.removeEventListener("unhandledrejection", onRejection);
       fx2.unmount();
