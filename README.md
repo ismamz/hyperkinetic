@@ -1,4 +1,4 @@
-# React Router Choreo
+# Hyperkinetic
 
 Parallel page transitions for React Router on one shared GSAP timeline.
 
@@ -12,7 +12,7 @@ The package is not published to npm. Install a fixed commit from GitHub by writi
 
 ```json
 "dependencies": {
-  "@ismamz/react-router-choreo": "github:ismamz/react-router-choreo#<commit-sha>"
+  "@ismamz/hyperkinetic": "github:ismamz/hyperkinetic#<commit-sha>"
 }
 ```
 
@@ -22,7 +22,7 @@ Git installs compile the package through its `prepare` script. pnpm 10 blocks de
 
 ```yaml
 onlyBuiltDependencies:
-  - "@ismamz/react-router-choreo"
+  - "@ismamz/hyperkinetic"
 ```
 
 Subsequent clones then install without a separate approval step. No sibling checkout or local link is required.
@@ -52,7 +52,7 @@ This is `examples/basic` (`app/root.tsx` and `app/lib/transition.ts`, comments s
 
 ```tsx
 // app/root.tsx
-import { AnimatedOutlet } from "@ismamz/react-router-choreo";
+import { AnimatedOutlet } from "@ismamz/hyperkinetic";
 
 import { Header } from "@/components/header";
 import { config as transition } from "@/lib/transition";
@@ -71,7 +71,7 @@ export default function App() {
 // app/lib/transition.ts
 import { gsap } from "gsap";
 
-import type { AnimatedOutletProps } from "@ismamz/react-router-choreo";
+import type { AnimatedOutletProps } from "@ismamz/hyperkinetic";
 
 export const config = {
   // Only navigations animate; the first load stays untouched.
@@ -154,7 +154,7 @@ import {
   usePageTransition,
   usePersistentTransition,
   useTransitionResource,
-} from "@ismamz/react-router-choreo";
+} from "@ismamz/hyperkinetic";
 
 import type {
   AnimatedOutletProps,
@@ -172,7 +172,7 @@ import type {
   ResourceConfig,
   ResourceFn,
   ResourceIssue,
-} from "@ismamz/react-router-choreo";
+} from "@ismamz/hyperkinetic";
 ```
 
 ### `<AnimatedOutlet />`
@@ -235,7 +235,7 @@ A title that exits at once and enters at a label the choreography published, wit
 ```tsx
 import { useRef } from "react";
 
-import { usePageTransition } from "@ismamz/react-router-choreo";
+import { usePageTransition } from "@ismamz/hyperkinetic";
 
 export function Title({ children }: { children: React.ReactNode }) {
   const scope = useRef<HTMLHeadingElement>(null);

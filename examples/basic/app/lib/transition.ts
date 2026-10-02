@@ -1,15 +1,15 @@
 import { gsap } from "gsap";
 
-import type { AnimatedOutletProps } from "@ismamz/react-router-choreo";
+import type { AnimatedOutletProps } from "@ismamz/hyperkinetic";
 
 export const config = {
   // Switches de depuración, apagados salvo que se pida por entorno; sólo
   // actúan en desarrollo (el engine los elimina en producción):
-  //   VITE_CHOREO_DEVTOOLS=1 pnpm dev
-  //   VITE_CHOREO_RETAIN=1 pnpm dev
+  //   VITE_HYPERKINETIC_DEVTOOLS=1 pnpm dev
+  //   VITE_HYPERKINETIC_RETAIN=1 pnpm dev
   debug: {
-    devTools: import.meta.env.VITE_CHOREO_DEVTOOLS === "1",
-    retainPages: import.meta.env.VITE_CHOREO_RETAIN === "1",
+    devTools: import.meta.env.VITE_HYPERKINETIC_DEVTOOLS === "1",
+    retainPages: import.meta.env.VITE_HYPERKINETIC_RETAIN === "1",
   },
   // Omite los hooks y la animación de primera carga: solo animamos navegaciones.
   // Así, siempre hay una saliente y una entrante, sin comprobar `!initial`.

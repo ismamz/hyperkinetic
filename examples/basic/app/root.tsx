@@ -2,7 +2,7 @@ import { Links, Meta, Scripts } from "react-router";
 
 import { Header } from "@/components/header";
 import { config as transition } from "@/lib/transition";
-import { AnimatedOutlet } from "@ismamz/react-router-choreo";
+import { AnimatedOutlet } from "@ismamz/hyperkinetic";
 
 import type { Route } from "./+types/root";
 import "@/lib/eases";

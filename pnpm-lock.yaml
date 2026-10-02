@@ -29,7 +29,7 @@ importers:
 
   examples/basic:
     dependencies:
-      '@ismamz/react-router-choreo':
+      '@ismamz/hyperkinetic':
         specifier: workspace:*
         version: link:../..
       '@react-router/fs-routes':

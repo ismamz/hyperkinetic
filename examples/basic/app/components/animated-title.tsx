@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import { usePageTransition } from "@ismamz/react-router-choreo";
+import { usePageTransition } from "@ismamz/hyperkinetic";
 
 export function AnimatedTitle({ children }: { children: React.ReactNode }) {
   const title = useRef<HTMLHeadingElement>(null);

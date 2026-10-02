@@ -1,5 +1,5 @@
 {
-  "name": "@ismamz/react-router-choreo",
+  "name": "@ismamz/hyperkinetic",
   "version": "0.1.0-alpha.0",
   "private": true,
   "description": "Parallel page transitions for React Router on one shared GSAP timeline.",
@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ismamz/react-router-choreo.git"
+    "url": "git+https://github.com/ismamz/hyperkinetic.git"
   },
   "packageManager": "pnpm@10.33.0",
   "scripts": {

@@ -10,7 +10,7 @@ import {
   usePersistentTransition,
   type AnimatedOutletProps,
   type PageTransition,
-} from "@ismamz/react-router-choreo";
+} from "@ismamz/hyperkinetic";
 
 // ---------------------------------------------------------------------------
 // Assertions. Each check collects failures instead of throwing on the first

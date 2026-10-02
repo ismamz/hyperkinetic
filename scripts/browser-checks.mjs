@@ -95,7 +95,7 @@ async function startServer() {
 }
 
 async function launchChrome() {
-  const profile = mkdtempSync(join(tmpdir(), "choreo-harness-"));
+  const profile = mkdtempSync(join(tmpdir(), "hyperkinetic-harness-"));
   const chrome = spawn(
     chromePath,
     [

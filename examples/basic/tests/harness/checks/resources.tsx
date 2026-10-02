@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { usePageTransition, useTransitionResource, type ResourceIssue } from "@ismamz/react-router-choreo";
+import { usePageTransition, useTransitionResource, type ResourceIssue } from "@ismamz/hyperkinetic";
 
 import { Block, Log, mount, outletProps, sleep, type Check } from "../support";
 

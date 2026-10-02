@@ -1,4 +1,4 @@
-import { useEnterReady } from "@ismamz/react-router-choreo";
+import { useEnterReady } from "@ismamz/hyperkinetic";
 
 import { Block, Log, ReadyProbe, mount, outletProps, sleep, waitFor, type Check } from "../support";
 
