@@ -17,7 +17,10 @@ const slug = (text: string) =>
  * rendering wrong.
  */
 export async function readme() {
-  const source = await readFile(new URL("../../../README.md", import.meta.url), "utf8");
+  // the README centers its header with HTML for GitHub; the site lays it out itself
+  const source = (await readFile(new URL("../../../README.md", import.meta.url), "utf8"))
+    .replace(/<h1 align="center">(.*?)<\/h1>/, "# $1")
+    .replace(/<p align="center">(.*?)<\/p>/, "$1");
   const md = new Marked({ async: true });
   const all = md.lexer(source);
 
