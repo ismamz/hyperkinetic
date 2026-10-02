@@ -22,6 +22,16 @@
   box-sizing: border-box;
 }
 
+h1,
+h2,
+h3,
+h4,
+th,
+strong,
+b {
+  font-weight: inherit;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
@@ -32,6 +42,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: system-ui, sans-serif;
+  font-weight: 300;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -76,7 +87,6 @@ a {
 
 .toc a:first-child {
   color: var(--fg);
-  font-weight: 700;
   margin-bottom: 0.75rem;
 }
 
@@ -187,7 +197,7 @@ a {
   right: 0.5rem;
   display: none;
   padding: 0.15rem 0.5rem;
-  font: 0.75rem var(--mono);
+  font: 300 0.75rem var(--mono);
   color: var(--muted);
   background: var(--bg);
   border: 1px solid var(--line);
