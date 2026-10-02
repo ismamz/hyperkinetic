@@ -169,6 +169,29 @@ a {
   border-bottom: 1px solid var(--line);
 }
 
+.prose blockquote,
+.prose .admonition {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border-left: 2px solid var(--fg);
+  background: var(--code-bg);
+}
+
+.prose blockquote > :last-child,
+.prose .admonition > :last-child {
+  margin-bottom: 0;
+}
+
+.prose .admonition::before {
+  content: attr(data-tone);
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
 .code {
   position: relative;
   margin: 0 0 1.5rem;

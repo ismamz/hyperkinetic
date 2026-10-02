@@ -11,7 +11,7 @@
 <p align="center"><em>Parallel page transitions for <a href="https://reactrouter.com/" target="_blank">React Router</a> on one shared <a href="https://gsap.com/" target="_blank">GSAP</a> timeline.</em></p>
 
 > [!WARNING]
-> This is an experimental stage. Use with caution.
+> This is an experimental project in alpha stage. Use with caution.
 
 ## Features
 
@@ -65,6 +65,7 @@ This is `examples/basic` (`app/root.tsx` and `app/lib/transition.ts`):
 
 ```tsx
 // app/root.tsx
+
 import { AnimatedOutlet } from "hyperkinetic";
 
 import { config as transition } from "@/lib/transition";
@@ -82,6 +83,7 @@ export default function App() {
 
 ```ts
 // app/lib/transition.ts
+
 import { gsap } from "gsap";
 
 import type { AnimatedOutletProps } from "hyperkinetic";
@@ -127,20 +129,19 @@ The engine renders this, you do not write it:
 | Attribute | Present when |
 | --- | --- |
 | `data-wrapper` | Always, on the container of all pages. |
-| `data-page` | Always, on every page container. `current.container` and `next.container` in callbacks are these elements. |
+| `data-page` | Always, on every page container (`current.container` and `next.container`) |
 | `data-page-outgoing` | On the first page while two pages are mounted. [`inert`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert) for accessibility. |
 | `data-page-incoming` | On the last page while two pages are mounted and its entrance has not completed. |
 | `data-page-initial` | On the first page from server render until the first run has prepared it. Only when `initial` is enabled. |
 
-> [!INFO]
+> [!NOTE]
 > At rest a single page carries no transition attribute.
 
 ## Adding your own styles
 
-> [!WARNING]
 > Positioning and stacking are yours.
 
-These CSS rules are a good starting point, but you can use other solutions based on your needs:
+These CSS rules are a starting point. You can use other solutions based on your needs.
 
 ```css
 /* Ensure incoming and outcoming pages are overlapped. */
@@ -167,18 +168,20 @@ These CSS rules are a good starting point, but you can use other solutions based
 
 With the first-load transition enabled, server-rendered markup paints before hydration prepares it. If you hide `[data-page-initial]` in CSS, do it inside `@media (scripting: enabled)` so a no-JS document stays readable.
 
-## Add enter and leave animation per component
+## Add enter and leave animations per component
 
 ### `usePageTransition`
 
 Use `usePageTransition` inside a route component or any child that unmounts with that route. 
 
-The hook registers a local "recipe" on the same timeline created by `<AnimatedOutlet />`: 
+The hook registers a local _recipe_ on the same timeline created by `<AnimatedOutlet />`: 
 
-* `leave` contributes while the current page is going out,
-* and `enter` contributes while the next page is coming in.
+* `leave` contributes while the current page is going out
+* `enter` contributes while the next page is coming in
 
 ```tsx
+// @app/components/animated-title.tsx
+
 import { useRef } from "react";
 
 import { usePageTransition } from "hyperkinetic";
@@ -190,45 +193,35 @@ export function AnimatedTitle({ children }: { children: React.ReactNode }) {
     scope: title,
     group: "titles",
     enterAt: "intro",
-    leave: (tl, { position, reduced }) => {
+    leave: (tl) => {
       tl.to(
         title.current,
         {
-          y: -12,
+          y: -20,
           autoAlpha: 0,
-          duration: reduced ? 0 : 0.3,
+          duration: 0.3,
           ease: "power2.in",
         },
-        position,
+        "outro",
       );
     },
-    enter: (tl, { position, reduced }) => {
+    enter: (tl) => {
       tl.fromTo(
         title.current,
-        { y: 12, autoAlpha: 0 },
+        { y: 20, autoAlpha: 0 },
         {
           y: 0,
           autoAlpha: 1,
-          duration: reduced ? 0 : 0.45,
+          duration: 0.45,
           ease: "power2.out",
         },
-        position,
+        "intro",
       );
     },
   });
 
   return <h1 ref={title}>{children}</h1>;
 }
-```
-
-* `scope` keeps selector-based GSAP work local to that component and lets the fallback skip the subtree it owns (similar to how [useGSAP](https://gsap.com/resources/React/) works).
-* `group` gives the global choreography a way to measure when matching exits end with `leaveEnd("titles")`.
-* `enterAt` points the component entrance at a label published by `choreograph` (if it's omitted, the entrance starts at `0`).
-
-```ts
-choreograph: ({ tl, leaveEnd }) => {
-  tl.addLabel("intro", Math.max(0.15, leaveEnd("titles")));
-},
 ```
 
 Use `usePersistentTransition` for components rendered beside the outlet, such as
@@ -238,6 +231,10 @@ unmounting.
 ## API
 
 The full runtime reference lives in [docs/API.md](docs/API.md).
+
+## Development
+
+* Docs: `pnpm dev:docs`
 
 ---
 

@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 
-import { Marked, type Token, type Tokens } from "marked";
+import { Lexer, Marked, type Token, type Tokens } from "marked";
 import { codeToHtml } from "shiki";
 
 export type Heading = { id: string; text: string };
@@ -33,30 +33,53 @@ export async function readme() {
     { links: all.links },
   );
 
-  const supported = new Set(["heading", "paragraph", "list", "table", "code", "space", "hr"]);
+  const supported = new Set(["heading", "paragraph", "list", "table", "code", "space", "hr", "blockquote", "html"]);
   for (const t of tokens) {
     if (!supported.has(t.type)) throw new Error(`readme: unsupported block "${t.type}"`);
   }
 
+  const codeTokens = (list: Token[]): Tokens.Code[] =>
+    list.flatMap((t) => {
+      if (t.type === "code") return [t];
+      if ("tokens" in t && Array.isArray(t.tokens)) return codeTokens(t.tokens);
+      if (t.type === "list") return t.items.flatMap((item) => codeTokens(item.tokens));
+      return [];
+    });
+
   const html = new Map<Tokens.Code, string>();
   await Promise.all(
-    tokens
-      .filter((t): t is Tokens.Code => t.type === "code")
-      .map(async (t) => {
-        // fences without a language are diagrams/output: keep them plain
-        html.set(
-          t,
-          await codeToHtml(t.text, {
-            lang: t.lang || "text",
-            themes: { light: "snazzy-light", dark: "aurora-x" },
-            defaultColor: false,
-          }),
-        );
-      }),
+    codeTokens(tokens).map(async (t) => {
+      // fences without a language are diagrams/output: keep them plain
+      html.set(
+        t,
+        await codeToHtml(t.text, {
+          lang: t.lang || "text",
+          themes: { light: "snazzy-light", dark: "aurora-x" },
+          defaultColor: false,
+        }),
+      );
+    }),
   );
 
   md.use({
     renderer: {
+      blockquote(t) {
+        const [tag, ...rest] = t.tokens;
+        const admonition = tag?.type === "paragraph" ? /^\[!(INFO|WARNING)\]\s*/.exec(tag.text) : null;
+        const text = admonition ? tag.text.slice(admonition[0].length) : "";
+        if (
+          admonition &&
+          (tag.tokens.length === 1 || tag.tokens[0]?.type === "text") &&
+          (text || rest.length > 0)
+        ) {
+          const tone = admonition[1].toLowerCase();
+          const first = text
+            ? [{ ...tag, text, tokens: Lexer.lexInline(text) }]
+            : [];
+          return `<aside class="admonition" data-tone="${tone}">${this.parser.parse([...first, ...rest])}</aside>`;
+        }
+        return `<blockquote>${this.parser.parse(t.tokens)}</blockquote>`;
+      },
       code: (t) => `<div class="code"><button type="button" data-copy>copy</button>${html.get(t)}</div>`,
       heading(t) {
         const id = slug(t.text);
