@@ -1,4 +1,4 @@
-import type gsap from "gsap";
+/// <reference types="gsap" preserve="true" />
 import type { RefObject } from "react";
 
 export type PageInfo = {
