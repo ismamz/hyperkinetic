@@ -1,6 +1,6 @@
-# Hyperkinetic
+<h1 align="center">Hyperkinetic</h1>
 
-Parallel page transitions for React Router on one shared GSAP timeline.
+<p align="center">Parallel page transitions for React Router on one shared GSAP timeline.</p>
 
 The outgoing and incoming routes stay mounted together while they animate. Every navigation creates one paused GSAP timeline; the application writes tweens onto it and the engine plays it, waits for it and then removes the outgoing page. The engine owns page lifetimes and timeline playback. The application owns motion, scroll, positioning and layers.
 
@@ -8,8 +8,12 @@ Alpha. React Router and GSAP only; one animated outlet per application.
 
 ## Installation
 
+Start from a React Router app (Vite), then add GSAP and the engine in one command:
+
 ```sh
-pnpm add hyperkinetic
+pnpm create react-router@latest my-app
+cd my-app
+pnpm add gsap hyperkinetic
 ```
 
 Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothing else.
