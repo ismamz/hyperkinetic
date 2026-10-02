@@ -8,24 +8,9 @@ Alpha. React Router and GSAP only; one animated outlet per application.
 
 ## Installation
 
-The package is not published to npm. Install a fixed commit from GitHub by writing the pinned specifier in `package.json` and running `pnpm install`:
-
-```json
-"dependencies": {
-  "@ismamz/hyperkinetic": "github:ismamz/hyperkinetic#<commit-sha>"
-}
+```sh
+pnpm add hyperkinetic
 ```
-
-Write it by hand rather than through `pnpm add`: with pnpm 10, `pnpm add '...#<commit-sha>'` records the commit in the lockfile only and saves an unpinned Git URL to `package.json`.
-
-Git installs compile the package through its `prepare` script. pnpm 10 blocks dependency build scripts unless they are allowed, so add this entry to the consuming project's `pnpm-workspace.yaml` before installing, merging it with any existing allowlist, and commit it with the dependency and lockfile:
-
-```yaml
-onlyBuiltDependencies:
-  - "@ismamz/hyperkinetic"
-```
-
-Subsequent clones then install without a separate approval step. No sibling checkout or local link is required.
 
 Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothing else.
 
@@ -52,7 +37,7 @@ This is `examples/basic` (`app/root.tsx` and `app/lib/transition.ts`, comments s
 
 ```tsx
 // app/root.tsx
-import { AnimatedOutlet } from "@ismamz/hyperkinetic";
+import { AnimatedOutlet } from "hyperkinetic";
 
 import { Header } from "@/components/header";
 import { config as transition } from "@/lib/transition";
@@ -71,7 +56,7 @@ export default function App() {
 // app/lib/transition.ts
 import { gsap } from "gsap";
 
-import type { AnimatedOutletProps } from "@ismamz/hyperkinetic";
+import type { AnimatedOutletProps } from "hyperkinetic";
 
 export const config = {
   // Only navigations animate; the first load stays untouched.
@@ -154,7 +139,7 @@ import {
   usePageTransition,
   usePersistentTransition,
   useTransitionResource,
-} from "@ismamz/hyperkinetic";
+} from "hyperkinetic";
 
 import type {
   AnimatedOutletProps,
@@ -172,7 +157,7 @@ import type {
   ResourceConfig,
   ResourceFn,
   ResourceIssue,
-} from "@ismamz/hyperkinetic";
+} from "hyperkinetic";
 ```
 
 ### `<AnimatedOutlet />`
@@ -235,7 +220,7 @@ A title that exits at once and enters at a label the choreography published, wit
 ```tsx
 import { useRef } from "react";
 
-import { usePageTransition } from "@ismamz/hyperkinetic";
+import { usePageTransition } from "hyperkinetic";
 
 export function Title({ children }: { children: React.ReactNode }) {
   const scope = useRef<HTMLHeadingElement>(null);
