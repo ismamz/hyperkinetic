@@ -5,8 +5,8 @@ import type { AnimatedOutletProps } from "@ismamz/hyperkinetic";
 export const config = {
   // Switches de depuración, apagados salvo que se pida por entorno; sólo
   // actúan en desarrollo (el engine los elimina en producción):
-  //   VITE_HYPERKINETIC_DEVTOOLS=1 pnpm dev
-  //   VITE_HYPERKINETIC_RETAIN=1 pnpm dev
+  //   VITE_HYPERKINETIC_DEVTOOLS=1 FILTER=basic pnpm dev:example
+  //   VITE_HYPERKINETIC_RETAIN=1 FILTER=basic pnpm dev:example
   debug: {
     devTools: import.meta.env.VITE_HYPERKINETIC_DEVTOOLS === "1",
     retainPages: import.meta.env.VITE_HYPERKINETIC_RETAIN === "1",

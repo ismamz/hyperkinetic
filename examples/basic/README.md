@@ -6,9 +6,9 @@ From the repository root:
 
 ```sh
 pnpm install
-pnpm dev
-pnpm typecheck:basic
-pnpm build:basic
+FILTER=basic pnpm dev:example
+FILTER=basic pnpm typecheck:example
+FILTER=basic pnpm build:example
 ```
 
 For a static preview after building:
