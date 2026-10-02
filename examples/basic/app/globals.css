@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@custom-variant js (@media (scripting: enabled));
+@custom-variant no-js (@media (scripting: none));
+
+@theme {
+  --color-background: #fff;
+  --color-foreground: #000;
+  --color-muted: #000;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: system-ui, sans-serif;
+  }
+
+  ::selection {
+    @apply bg-black text-white;
+  }
+}
+
+@utility container {
+  @apply max-w-none px-[2.5%];
+}
+
+/*
+ * Durante la transición, las dos páginas comparten la misma celda del grid.
+ * `grid-area` las superpone sin sacarlas del layout por sí solo; también define
+ * la posición estática desde la que se ubica la página entrante cuando es fixed.
+ */
+[data-wrapper] {
+  display: grid;
+}
+
+[data-page] {
+  grid-area: 1 / 1;
+}
+
+/*
+ * La entrante sale temporalmente del flujo con `position: fixed`: así no hereda
+ * el scroll de la saliente y puede empezar desde el inicio de la página. Como
+ * su `top` queda en `auto`, el navegador toma el inicio de su celda del grid;
+ * el área compartida mantiene esa posición alineada con el wrapper, incluido
+ * el espacio que ocupa el header. Sin `grid-area`, las páginas se apilarían y
+ * la entrante ya no tendría ese punto de referencia para el crossfade.
+ */
+[data-page-incoming] {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+/* outgoing page doesn't register clicks while it's leaving */
+[data-page-outgoing] {
+  pointer-events: none;
+}

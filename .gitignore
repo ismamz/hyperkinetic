@@ -1,0 +1,10 @@
+/_draft/
+node_modules/
+dist/
+build/
+.react-router/
+*.tgz
+.DS_Store
+.env
+.env.*
+!.env.example

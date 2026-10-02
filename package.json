@@ -1,0 +1,50 @@
+{
+  "name": "@ismamz/react-router-choreo",
+  "version": "0.1.0-alpha.0",
+  "private": true,
+  "description": "Parallel page transitions for React Router on one shared GSAP timeline.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ismamz/react-router-choreo.git"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepare": "npm run build",
+    "dev": "pnpm build && pnpm --filter basic dev",
+    "build:basic": "pnpm build && pnpm --filter basic build",
+    "typecheck:basic": "pnpm build && pnpm --filter basic typecheck",
+    "test:unit": "pnpm build && node --test tests/unit/*.test.ts",
+    "test:browser": "pnpm build && node scripts/browser-checks.mjs",
+    "test:prod-debug": "pnpm build:basic && node scripts/check-production-debug.mjs",
+    "test": "pnpm test:unit && pnpm test:browser && pnpm test:prod-debug"
+  },
+  "peerDependencies": {
+    "gsap": "^3.15.0",
+    "react": "~19.2.8",
+    "react-router": "8.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.18",
+    "gsap": "3.15.0",
+    "react": "19.2.8",
+    "react-router": "8.4.0",
+    "typescript": "5.9.3"
+  }
+}
