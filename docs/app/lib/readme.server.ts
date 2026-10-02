@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { Lexer, Marked, type Token, type Tokens } from "marked";
 import { codeToHtml } from "shiki";
 
-export type Heading = { id: string; text: string };
+export type Heading = { id: string; text: string; depth: 2 | 3; inlineCode: boolean };
 
 const slug = (text: string) =>
   text
@@ -12,9 +12,9 @@ const slug = (text: string) =>
     .replace(/^-|-$/g, "");
 
 /**
- * README.md is the single source: the page splits at the first `##` so the demo
- * sits under the opening paragraphs. Unsupported tokens throw instead of
- * rendering wrong.
+ * README.md is the single source: the page splits at the first `##` so the
+ * opening paragraphs can be laid out separately. Unsupported tokens throw
+ * instead of rendering wrong.
  */
 export async function readme() {
   // the README centers its header with HTML for GitHub; the site lays it out itself
@@ -73,16 +73,26 @@ export async function readme() {
           (text || rest.length > 0)
         ) {
           const tone = admonition[1].toLowerCase();
+          const toneClasses =
+            tone === "info"
+              ? "border-sky-600 dark:border-sky-400"
+              : "border-[#806000] dark:border-[khaki]";
+          const labelClasses =
+            tone === "info" ? "text-sky-700 dark:text-sky-300" : "text-[#806000] dark:text-[khaki]";
           const first = text
             ? [{ ...tag, text, tokens: Lexer.lexInline(text) }]
             : [];
-          return `<aside class="admonition" data-tone="${tone}">${this.parser.parse([...first, ...rest])}</aside>`;
+          return `<aside class="mb-6 flex flex-col gap-2 border-l-2 bg-neutral-100 py-3 ps-5 pe-3 [&_p]:m-0 dark:bg-neutral-950 ${toneClasses}"><p class="font-mono text-xs uppercase ${labelClasses}">${tone}</p>${this.parser.parse([...first, ...rest])}</aside>`;
         }
         return `<blockquote>${this.parser.parse(t.tokens)}</blockquote>`;
       },
-      code: (t) => `<div class="code"><button type="button" data-copy>copy</button>${html.get(t)}</div>`,
+      code: (t) =>
+        `<div class="group relative mb-6 [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:border [&_pre]:border-neutral-200 [&_pre]:bg-neutral-50 [&_pre]:p-4 [&_pre]:font-mono [&_pre]:text-[0.8125rem] [&_pre]:leading-relaxed dark:[&_pre]:border-neutral-800 dark:[&_pre]:bg-neutral-950"><button class="js:block absolute right-2 top-2 hidden rounded border border-neutral-200 bg-white px-2 py-1 font-mono text-xs text-neutral-500 uppercase hover:text-black dark:border-neutral-800 dark:bg-black dark:hover:text-white" type="button" data-copy>copy</button>${html.get(t)}</div>`,
       heading(t) {
         const id = slug(t.text);
+        if (t.depth === 1) {
+          return `<h1 id="${id}">${this.parser.parseInline(t.tokens)}</h1>`;
+        }
         return `<h${t.depth} id="${id}">${this.parser.parseInline(t.tokens)}</h${t.depth}>`;
       },
     },
@@ -92,11 +102,35 @@ export async function readme() {
   const render = (list: Token[]) => md.parser(Object.assign(list, { links: tokens.links }));
 
   const toc: Heading[] = tokens
-    .filter((t): t is Tokens.Heading => t.type === "heading" && t.depth === 2)
-    .map((t) => ({ id: slug(t.text), text: t.text }));
+    .filter((t): t is Tokens.Heading => t.type === "heading" && (t.depth === 2 || t.depth === 3))
+    .map((t) => ({
+      id: slug(t.text),
+      text: t.tokens
+        .map((token) => (token.type === "codespan" || token.type === "text" ? token.text : ""))
+        .join(""),
+      depth: t.depth,
+      inlineCode: t.tokens.some((token) => token.type === "codespan"),
+    }));
+
+  const introTokens = tokens.slice(0, split);
+  const descriptionIndex = introTokens.findIndex(
+    (t) => t.type === "paragraph" && t.text.startsWith("Parallel page transitions for"),
+  );
+  const githubLink = `<p class="github-link my-0 mb-24">
+    <a class="inline-flex items-center gap-2" href="https://github.com/ismamz/hyperkinetic" target="_blank" rel="noreferrer">
+      <svg class="size-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 .297a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.09 1.83 1.23 1.83 1.23 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.62-2.8 5.64-5.48 5.94.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .297z" />
+      </svg>
+      <span>GitHub</span>
+    </a>
+  </p>`;
+  const intro =
+    descriptionIndex < 0
+      ? await render(introTokens)
+      : `${await render(introTokens.slice(0, descriptionIndex + 1))}${githubLink}${await render(introTokens.slice(descriptionIndex + 1))}`;
 
   return {
-    intro: await render(tokens.slice(0, split)),
+    intro,
     body: await render(tokens.slice(split)),
     toc,
   };

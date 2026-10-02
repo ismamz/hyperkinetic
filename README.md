@@ -8,7 +8,7 @@
 
 <h1 align="center">Hyperkinetic</h1>
 
-<p align="center"><em>Parallel page transitions for <a href="https://reactrouter.com/" target="_blank">React Router</a> on one shared <a href="https://gsap.com/" target="_blank">GSAP</a> timeline.</em></p>
+<p align="center">Parallel page transitions for <a class="whitespace-nowrap" href="https://reactrouter.com/" target="_blank">React Router</a> on one shared <a href="https://gsap.com/" target="_blank">GSAP</a> timeline.</p>
 
 > [!WARNING]
 > This is an experimental project in alpha stage. Use with caution.
@@ -130,16 +130,16 @@ The engine renders this, you do not write it:
 | --- | --- |
 | `data-wrapper` | Always, on the container of all pages. |
 | `data-page` | Always, on every page container (`current.container` and `next.container`) |
-| `data-page-outgoing` | On the first page while two pages are mounted. [`inert`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert) for accessibility. |
+| <code class="whitespace-nowrap">data-page-outgoing</code> | On the first page while two pages are mounted. [`inert`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert) for accessibility. |
 | `data-page-incoming` | On the last page while two pages are mounted and its entrance has not completed. |
-| `data-page-initial` | On the first page from server render until the first run has prepared it. Only when `initial` is enabled. |
+| `data-page-initial` | On the first page from server render until the first run has prepared it. <br/> _Only when `initial` is enabled._ |
 
-> [!NOTE]
+> [!INFO]
 > At rest a single page carries no transition attribute.
 
 ## Adding your own styles
 
-> Positioning and stacking are yours.
+*Positioning and stacking are yours.*
 
 These CSS rules are a starting point. You can use other solutions based on your needs.
 
@@ -168,7 +168,7 @@ These CSS rules are a starting point. You can use other solutions based on your 
 
 With the first-load transition enabled, server-rendered markup paints before hydration prepares it. If you hide `[data-page-initial]` in CSS, do it inside `@media (scripting: enabled)` so a no-JS document stays readable.
 
-## Add enter and leave animations per component
+## Component animations
 
 ### `usePageTransition`
 
@@ -224,9 +224,35 @@ export function AnimatedTitle({ children }: { children: React.ReactNode }) {
 }
 ```
 
-Use `usePersistentTransition` for components rendered beside the outlet, such as
-a header or media player, that should animate on every navigation without
-unmounting.
+### `usePersistentTransition`
+
+Use this hook for UI rendered beside `<AnimatedOutlet />`. The component stays
+mounted, so its `leave` and `enter` recipes run on every transition:
+
+```tsx
+import { useRef } from "react";
+import { usePersistentTransition } from "hyperkinetic";
+
+export function PersistentComponent() {
+  const element = useRef<HTMLDivElement>(null);
+
+  usePersistentTransition({
+    scope: element,
+    leave: (tl) => {
+      tl.to(element.current, { y: -8, autoAlpha: 0, duration: 0.2 });
+    },
+    enter: (tl) => {
+      tl.fromTo(
+        element.current,
+        { y: 8, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 0.3 },
+      );
+    },
+  });
+
+  return <div ref={element}>Persistent UI</div>;
+}
+```
 
 ## API
 

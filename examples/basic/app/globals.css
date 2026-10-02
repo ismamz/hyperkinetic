@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @custom-variant js (@media (scripting: enabled));
@@ -12,7 +13,8 @@
 @layer base {
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: system-ui, sans-serif;
+    font-family: "Instrument Sans", system-ui, sans-serif;
+    font-size-adjust: from-font;
   }
 
   ::selection {
