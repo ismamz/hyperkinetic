@@ -1,3 +1,11 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset=".github/logo.svg">
+    <img alt="Hyperkinetic" src=".github/logo.svg" width="180">
+  </picture>
+</p>
+
 <h1 align="center">Hyperkinetic</h1>
 
 <p align="center">Parallel page transitions for React Router on one shared GSAP timeline.</p>
