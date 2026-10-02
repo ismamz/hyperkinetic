@@ -28,6 +28,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <Header />
+        <div aria-hidden="true" className="h-[var(--header-height)]" />
         {children}
         <Scripts />
         {/* off: jumps scroll mid-transition; transition hooks own it (lib/transition.ts) */}
@@ -39,10 +41,5 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 // default, it can be named `Root` if you want
 export default function App() {
-  return (
-    <>
-      <Header />
-      <AnimatedOutlet {...transition} />
-    </>
-  );
+  return <AnimatedOutlet {...transition} />;
 }

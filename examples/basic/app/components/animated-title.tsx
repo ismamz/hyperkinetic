@@ -23,6 +23,7 @@ export function AnimatedTitle({
     split.current = SplitText.create(title.current, {
       type: "words",
       mask: "words",
+      wordsClass: "title-word",
     });
 
     return () => {
@@ -32,6 +33,7 @@ export function AnimatedTitle({
   }, []);
 
   usePageTransition({
+    group: "outro",
     // La receta se suma al mismo timeline que hace el crossfade de las páginas.
     enter: (tl, { reduced }) => {
       const words = split.current?.words;
@@ -39,7 +41,7 @@ export function AnimatedTitle({
 
       tl.fromTo(
         words,
-        { yPercent: reduced ? 0 : 110, autoAlpha: 0 },
+        { yPercent: reduced ? 0 : 130, autoAlpha: 0 },
         {
           yPercent: 0,
           autoAlpha: 1,
@@ -57,7 +59,7 @@ export function AnimatedTitle({
       tl.to(
         words,
         {
-          yPercent: reduced ? 0 : -110,
+          yPercent: reduced ? 0 : -130,
           autoAlpha: 0,
           duration: reduced ? 0 : 0.3,
           stagger: reduced ? 0 : 0.025,

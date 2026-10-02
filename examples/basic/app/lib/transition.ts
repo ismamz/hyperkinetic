@@ -32,14 +32,15 @@ export const config = {
     // inicio sin moverla, antes de que el engine quite la saliente del DOM.
     window.scrollTo(0, 0);
   },
-  choreograph: ({ tl, current, next }) => {
-    tl.addLabel("outro");
+  choreograph: ({ tl, current, next, leaveEnd }) => {
+    tl.addLabel("outro", 0);
 
     const duration = 0.6;
-    // Ambas animaciones duran lo mismo y empiezan al mismo tiempo
-    tl.to(current.container, { autoAlpha: 0, duration, ease: "none" }, "<60%");
+    const outroEnd = leaveEnd("outro");
+    // El crossfade empieza cuando terminan las salidas locales agrupadas.
+    tl.to(current.container, { autoAlpha: 0, duration, ease: "none" }, outroEnd);
     tl.to(next.container, { autoAlpha: 1, duration, ease: "none" }, "<");
 
-    tl.addLabel("intro", "<60%");
+    tl.addLabel("intro", outroEnd + duration * 0.4);
   },
 } satisfies AnimatedOutletProps;

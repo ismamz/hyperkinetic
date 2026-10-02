@@ -28,17 +28,20 @@ export function Header() {
   }, [pathname]);
 
   return (
-    <header>
-      <div className="container flex items-center justify-between py-8">
-        <Link to="/" className="text-lg font-semibold tracking-tight">
-          Hyperkinetic <span className="font-normal text-black/50">/ Basic</span>
-        </Link>
-        <nav aria-label="Main navigation" className="flex items-center gap-6 text-xs tracking-[0.16em]">
-          <div ref={links} className="relative flex gap-6">
+    <header className="fixed inset-x-0 top-0 z-10 h-[var(--header-height)]">
+      <div className="container flex h-full items-center justify-center">
+        <nav
+          aria-label="Main navigation"
+          className="flex items-center gap-1 bg-blue-600 px-1 py-2 text-xs tracking-[0.16em] text-white sm:gap-4 sm:px-4"
+        >
+          <Link to="/" className="whitespace-nowrap text-lg font-semibold tracking-tight">
+            Hyperkinetic <span className="font-normal text-white/60">/ Basic</span>
+          </Link>
+          <div ref={links} className="relative ml-[4.25rem] flex gap-3 sm:ml-[5.75rem] sm:gap-6">
             <span
               ref={indicator}
               aria-hidden="true"
-              className="absolute bottom-1 left-0 h-px bg-black motion-safe:transition-[transform,width] motion-safe:duration-300 motion-safe:ease-out"
+              className="absolute bottom-1 left-0 h-px bg-white motion-safe:transition-[transform,width] motion-safe:duration-300 motion-safe:ease-out"
             />
             <Link
               ref={index}
@@ -62,7 +65,7 @@ export function Header() {
             target="_blank"
             rel="noreferrer"
             aria-label="Hyperkinetic on GitHub"
-            className="transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            className="transition-opacity hover:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <Github />
           </a>

@@ -11,6 +11,10 @@
 }
 
 @layer base {
+  :root {
+    --header-height: 5.75rem;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Instrument Sans", system-ui, sans-serif;
@@ -24,6 +28,52 @@
 
 @utility container {
   @apply max-w-none px-[2.5%];
+}
+
+.title-word-mask {
+  overflow-clip-margin: 0.16em;
+}
+
+.hero-height {
+  min-height: calc(100vh - var(--header-height) - 2rem);
+}
+
+.triangle-outline,
+.triangle-outline::before,
+.triangle-outline > span,
+.triangle-outline > span::before {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.triangle-outline {
+  position: relative;
+  width: 10rem;
+  height: 9rem;
+  background: #000;
+}
+
+.triangle-outline::before,
+.triangle-outline > span::before {
+  position: absolute;
+  inset: 2px 4px;
+  background: #fff;
+  content: "";
+}
+
+.triangle-outline > span {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  width: 5rem;
+  height: 4.5rem;
+  background: #000;
+  transform: translateX(-50%);
+}
+
+@media (min-width: 40rem) {
+  .hero-height {
+    min-height: calc(100vh - var(--header-height) - 3rem);
+  }
 }
 
 /*
