@@ -31,8 +31,15 @@ export const interrupt: Check = {
       const frozen = firstTl.time();
       t.ok(frozen > 0 && frozen < firstTl.duration(), "interrupted timeline stopped mid-way");
       t.equal(fx.pages().length, 2, "two pages during the second transition");
-      t.ok(fx.container.contains(bContent), "the interrupted incoming page became the outgoing one");
-      t.equal(fx.container.querySelector('[data-testid="a"]'), null, "the first outgoing page was dropped");
+      t.ok(
+        fx.container.contains(bContent),
+        "the interrupted incoming page became the outgoing one",
+      );
+      t.equal(
+        fx.container.querySelector('[data-testid="a"]'),
+        null,
+        "the first outgoing page was dropped",
+      );
 
       await fx.settled();
       t.equal(firstTl.time(), frozen, "interrupted timeline did not advance after the kill");
@@ -46,15 +53,31 @@ export const interrupt: Check = {
         ["/c"],
         "afterEnter never fired for the interrupted run",
       );
-      t.deepEqual(log.all("outlet", "after").map((e) => e.to), ["/c"], "after never fired for the interrupted run");
-      t.deepEqual(log.events("b").filter((e) => e === "complete"), [], "interrupted incoming recipe never completed");
-      t.deepEqual(log.events("b"), ["prepare", "enter", "leave"], "b entered, then left as outgoing");
+      t.deepEqual(
+        log.all("outlet", "after").map((e) => e.to),
+        ["/c"],
+        "after never fired for the interrupted run",
+      );
+      t.deepEqual(
+        log.events("b").filter((e) => e === "complete"),
+        [],
+        "interrupted incoming recipe never completed",
+      );
+      t.deepEqual(
+        log.events("b"),
+        ["prepare", "enter", "leave"],
+        "b entered, then left as outgoing",
+      );
       t.ok(log.find("c", "complete"), "final incoming recipe completed");
 
       // After a completed transition the next navigation is not interrupted.
       await fx.navigate("/a");
       await fx.settled();
-      t.equal(log.all("outlet", "choreograph")[2]!.interrupted, false, "navigation after completion is not interrupted");
+      t.equal(
+        log.all("outlet", "choreograph")[2]!.interrupted,
+        false,
+        "navigation after completion is not interrupted",
+      );
 
       // Same URL navigation (new location.key) still runs a transition.
       await fx.navigate("/a");
@@ -70,7 +93,10 @@ export const interrupt: Check = {
     // Unmounting the outlet mid-run kills the timeline and fires nothing later.
     const log2 = new Log();
     const fx2 = mount({
-      routes: { "/a": <Block log={log2} who="a" duration={0.4} />, "/b": <Block log={log2} who="b" duration={0.4} /> },
+      routes: {
+        "/a": <Block log={log2} who="a" duration={0.4} />,
+        "/b": <Block log={log2} who="b" duration={0.4} />,
+      },
       outlet: outletProps(log2),
     });
     await fx2.navigate("/b");

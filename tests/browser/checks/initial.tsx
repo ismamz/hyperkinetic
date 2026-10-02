@@ -1,6 +1,15 @@
 import { useEnterReady } from "hyperkinetic";
 
-import { Block, Log, Persistent, ReadyProbe, mount, outletProps, waitFor, type Check } from "../support";
+import {
+  Block,
+  Log,
+  Persistent,
+  ReadyProbe,
+  mount,
+  outletProps,
+  waitFor,
+  type Check,
+} from "../support";
 
 // First load: same choreography, no outgoing page, no page exits — but the
 // persistent recipes' leave still runs (documented nuance).
@@ -24,7 +33,10 @@ export const initial: Check = {
     try {
       const page = fx.pages()[0]!;
       // The attribute is rendered by React and removed on the DOM once prepared.
-      t.ok(page.hasAttribute("data-page-initial"), "first page is marked initial before preparation");
+      t.ok(
+        page.hasAttribute("data-page-initial"),
+        "first page is marked initial before preparation",
+      );
       await waitFor(() => !!log.find("outlet", "after"), "initial run to finish");
 
       t.deepEqual(
@@ -53,7 +65,11 @@ export const initial: Check = {
       t.equal(log.find("a", "leave"), undefined, "no page exit on first load");
       t.ok(!fx.pages()[0]!.hasAttribute("data-page-initial"), "initial mark removed");
       t.ok(!fx.pages()[0]!.hasAttribute("data-page-incoming"), "no incoming mark at rest");
-      t.deepEqual(log.events("a-probe"), ["ready:false", "ready:true"], "useEnterReady gates the first load");
+      t.deepEqual(
+        log.events("a-probe"),
+        ["ready:false", "ready:true"],
+        "useEnterReady gates the first load",
+      );
 
       // A normal navigation afterwards is not initial.
       await fx.navigate("/b");

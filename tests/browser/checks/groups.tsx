@@ -35,7 +35,12 @@ export const groups: Check = {
           measured.unknown = d.leaveEnd("unknown");
           d.tl.addLabel("after-titles", measured.titles);
           d.tl.to(d.current.container, { opacity: 0, duration: 0.2 }, 0);
-          d.tl.fromTo(d.next.container, { opacity: 0 }, { opacity: 1, duration: 0.2 }, measured.titles);
+          d.tl.fromTo(
+            d.next.container,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.2 },
+            measured.titles,
+          );
           // Release the incoming latch while the outgoing page is still leaving.
           d.tl.call(d.ready, [], 0.05);
           // Measured here: after the trim the outgoing page's context is
@@ -47,9 +52,20 @@ export const groups: Check = {
     try {
       await fx.navigate("/b");
       t.deepEqual(log.events("b-probe"), ["ready:false"], "incoming page starts not ready");
-      await waitFor(() => log.events("b-probe").includes("ready:true"), "ready() to release the latch");
-      t.equal(log.find("b-probe", "ready:true")?.pages, 2, "latch released while both pages are mounted");
-      t.equal(log.find("outlet", "afterEnter"), undefined, "latch released before the run finished");
+      await waitFor(
+        () => log.events("b-probe").includes("ready:true"),
+        "ready() to release the latch",
+      );
+      t.equal(
+        log.find("b-probe", "ready:true")?.pages,
+        2,
+        "latch released while both pages are mounted",
+      );
+      t.equal(
+        log.find("outlet", "afterEnter"),
+        undefined,
+        "latch released before the run finished",
+      );
       await fx.settled();
 
       t.close(measured.titles, 0.4, "leaveEnd(titles) is the real end of the group (0.1 + 0.3)");
@@ -58,13 +74,24 @@ export const groups: Check = {
       // Ungrouped a-4 (1s) is not measured, so the timeline outlasts the group.
       const choreo = log.find("outlet", "choreograph")!;
       t.close(choreo.duration as number, 1, "ungrouped leave still defines the timeline length");
-      t.ok(choreo.tl!.duration() < 1, "after the trim the outgoing page's tweens were reverted off the timeline");
-      t.close(log.find("b-1", "enter")!.position as number, 0.4, "enterAt resolves to the published label");
+      t.ok(
+        choreo.tl!.duration() < 1,
+        "after the trim the outgoing page's tweens were reverted off the timeline",
+      );
+      t.close(
+        log.find("b-1", "enter")!.position as number,
+        0.4,
+        "enterAt resolves to the published label",
+      );
 
       // Latch stays true while the page becomes outgoing.
       await fx.navigate("/c");
       await fx.settled();
-      t.deepEqual(log.events("b-probe"), ["ready:false", "ready:true"], "latch never flipped back during outgoing");
+      t.deepEqual(
+        log.events("b-probe"),
+        ["ready:false", "ready:true"],
+        "latch never flipped back during outgoing",
+      );
     } finally {
       fx.unmount();
     }
@@ -84,7 +111,11 @@ export const groups: Check = {
     try {
       await fx2.navigate("/b");
       await sleep(100);
-      t.deepEqual(rejections, ["Unknown page transition label: missing"], "unknown enterAt label rejects the run");
+      t.deepEqual(
+        rejections,
+        ["Unknown page transition label: missing"],
+        "unknown enterAt label rejects the run",
+      );
       t.equal(log2.find("outlet", "afterEnter"), undefined, "the failed run never completes");
       await fx2.settled(500);
       t.equal(fx2.pages()[0]?.textContent, "b", "incoming page survives a failed run");

@@ -57,7 +57,8 @@ export class Expect {
 }
 
 function show(value: unknown) {
-  if (value instanceof Element) return `<${value.tagName.toLowerCase()} ${value.getAttribute("data-testid") ?? ""}>`;
+  if (value instanceof Element)
+    return `<${value.tagName.toLowerCase()} ${value.getAttribute("data-testid") ?? ""}>`;
   try {
     return JSON.stringify(value);
   } catch {
@@ -86,7 +87,8 @@ export async function waitFor(predicate: () => boolean, label: string, timeout =
 }
 
 // One extra React commit + paint, for state the engine dispatches after an await.
-export const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+export const nextFrame = () =>
+  new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
 // ---------------------------------------------------------------------------
 // Router fixture. A memory router whose root renders the outlet; the pages are
@@ -166,7 +168,13 @@ export function mount({ routes, outlet, persistent, initialPath }: MountOptions)
 
 // Reads the props through a getter so `rerender` can swap them without
 // remounting the router.
-function Shell({ persistent, getProps }: { persistent?: ReactNode; getProps: () => AnimatedOutletProps }) {
+function Shell({
+  persistent,
+  getProps,
+}: {
+  persistent?: ReactNode;
+  getProps: () => AnimatedOutletProps;
+}) {
   return (
     <>
       {persistent}
@@ -251,7 +259,12 @@ function recipeFor(scope: React.RefObject<HTMLElement | null>, o: RecipeOptions)
   return recipe;
 }
 
-function pick(data: { initial: boolean; interrupted: boolean; current: { pathname: string }; next: { pathname: string } }) {
+function pick(data: {
+  initial: boolean;
+  interrupted: boolean;
+  current: { pathname: string };
+  next: { pathname: string };
+}) {
   return {
     initial: data.initial,
     interrupted: data.interrupted,
@@ -261,7 +274,9 @@ function pick(data: { initial: boolean; interrupted: boolean; current: { pathnam
 }
 
 // A page component with a logging local recipe.
-export function Block(props: RecipeOptions & { children?: ReactNode; testid?: string; className?: string }) {
+export function Block(
+  props: RecipeOptions & { children?: ReactNode; testid?: string; className?: string },
+) {
   const scope = useRef<HTMLDivElement>(null);
   usePageTransition(recipeFor(scope, props));
   return (
@@ -283,7 +298,10 @@ export function Persistent(props: RecipeOptions & { children?: ReactNode; testid
 }
 
 // Outlet props whose global hooks log into `log`, with a short crossfade.
-export function outletProps(log: Log, overrides: Partial<AnimatedOutletProps> = {}): AnimatedOutletProps {
+export function outletProps(
+  log: Log,
+  overrides: Partial<AnimatedOutletProps> = {},
+): AnimatedOutletProps {
   const duration = 0.2;
   return {
     initial: false,
@@ -310,7 +328,15 @@ export function outletProps(log: Log, overrides: Partial<AnimatedOutletProps> = 
 }
 
 // Renders `useEnterReady` transitions into the log on every change.
-export function ReadyProbe({ log, who, useEnterReady }: { log: Log; who: string; useEnterReady: () => boolean }) {
+export function ReadyProbe({
+  log,
+  who,
+  useEnterReady,
+}: {
+  log: Log;
+  who: string;
+  useEnterReady: () => boolean;
+}) {
   const ready = useEnterReady();
   const last = useRef<boolean | null>(null);
   useEffect(() => {

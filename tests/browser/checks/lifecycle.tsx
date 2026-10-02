@@ -84,7 +84,11 @@ export const lifecycle: Check = {
       t.ok(tl.getChildren(false).length >= 6, "all contributions landed on the master timeline");
       t.equal(tl.progress(), 1, "master timeline finished");
 
-      t.equal(log.find("outlet", "afterEnter")?.pages, 2, "afterEnter runs with both pages mounted");
+      t.equal(
+        log.find("outlet", "afterEnter")?.pages,
+        2,
+        "afterEnter runs with both pages mounted",
+      );
       t.equal(log.find("outlet", "after")?.pages, 1, "after runs once the outgoing page is gone");
       for (const e of log.entries) {
         if (e.who === "fallback") continue;
@@ -105,18 +109,34 @@ export const lifecycle: Check = {
       t.equal(log.find("b-title", "leave"), undefined, "incoming recipe never leaves");
       t.equal(log.find("a-title", "complete"), undefined, "outgoing recipe never completes");
 
-      t.close(log.find("b-title", "enter")!.position as number, tl.labels.intro, "enterAt label resolves to its time");
+      t.close(
+        log.find("b-title", "enter")!.position as number,
+        tl.labels.intro,
+        "enterAt label resolves to its time",
+      );
       t.equal(log.find("b-side", "enter")!.position, 0, "no enterAt means position 0");
-      t.close(log.find("fallback", "enter")!.position as number, tl.labels.intro, "fallback enterAt resolves too");
+      t.close(
+        log.find("fallback", "enter")!.position as number,
+        tl.labels.intro,
+        "fallback enterAt resolves too",
+      );
 
       // Scoped blocks own both directions; only the unclaimed paragraph falls back.
       t.deepEqual(fallbackTargets.leave, ["a-plain"], "fallback leave targets");
       t.deepEqual(fallbackTargets.enter, ["b-plain"], "fallback enter targets");
-      t.deepEqual(fallbackTargets.prepare, ["b-plain"], "fallback prepare receives the enter targets");
+      t.deepEqual(
+        fallbackTargets.prepare,
+        ["b-plain"],
+        "fallback prepare receives the enter targets",
+      );
 
       t.equal(fx.pages().length, 1, "one page after the trim");
       t.ok(fx.container.querySelector('[data-testid="b-title"]'), "incoming content remains");
-      t.equal(fx.container.querySelector('[data-testid="a-title"]'), null, "outgoing content was removed");
+      t.equal(
+        fx.container.querySelector('[data-testid="a-title"]'),
+        null,
+        "outgoing content was removed",
+      );
     } finally {
       fx.unmount();
     }

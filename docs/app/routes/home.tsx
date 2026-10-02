@@ -108,17 +108,30 @@ export default function Home({ loaderData: { intro, body, toc } }: Route.Compone
           </a>
         ))}
         <footer className="mt-8 border-t border-neutral-200 pt-4 text-xs text-neutral-500 dark:border-neutral-800">
-          by <a className="text-neutral-900 underline underline-offset-4 transition-colors duration-150 hover:text-neutral-600 dark:text-white dark:hover:text-neutral-300" href="https://isma.uy" target="_blank" rel="noreferrer">isma</a>
+          by{" "}
+          <a
+            className="text-neutral-900 underline underline-offset-4 transition-colors duration-150 hover:text-neutral-600 dark:text-white dark:hover:text-neutral-300"
+            href="https://isma.uy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            isma
+          </a>
         </footer>
       </nav>
       <main className="col-start-1 row-start-1 min-w-0" id="top">
-        <article
-          className={proseClasses}
-          dangerouslySetInnerHTML={{ __html: intro + body }}
-        />
+        <article className={proseClasses} dangerouslySetInnerHTML={{ __html: intro + body }} />
       </main>
       <footer className="mt-8 hidden border-t border-neutral-200 pt-4 text-xs text-neutral-500 dark:border-neutral-800 max-[52rem]:block">
-        by <a className="text-neutral-900 underline underline-offset-4 transition-colors duration-150 hover:text-neutral-600 dark:text-white dark:hover:text-neutral-300" href="https://isma.uy" target="_blank" rel="noreferrer">isma</a>
+        by{" "}
+        <a
+          className="text-neutral-900 underline underline-offset-4 transition-colors duration-150 hover:text-neutral-600 dark:text-white dark:hover:text-neutral-300"
+          href="https://isma.uy"
+          target="_blank"
+          rel="noreferrer"
+        >
+          isma
+        </a>
       </footer>
     </div>
   );

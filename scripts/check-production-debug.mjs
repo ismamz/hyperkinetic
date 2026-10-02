@@ -22,7 +22,9 @@ for (const file of readdirSync(assets).filter((f) => f.endsWith(".js"))) {
   for (const needle of forbidden) if (source.includes(needle)) hits.push(`${file}: ${needle}`);
 }
 if (!outletFound) {
-  console.error(`FAIL  production bundle does not contain the engine outlet (${outletMarker}); wrong build?`);
+  console.error(
+    `FAIL  production bundle does not contain the engine outlet (${outletMarker}); wrong build?`,
+  );
   process.exit(1);
 }
 if (hits.length) {
