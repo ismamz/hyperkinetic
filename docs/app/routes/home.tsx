@@ -35,6 +35,7 @@ export default function Home({ loaderData: { intro, body, toc } }: Route.Compone
     <div className="layout">
       <nav className="toc" aria-label="Sections">
         <a href="#top">Hyperkinetic</a>
+        <a href="#demo">Demo</a>
         {toc.map(({ id, text }) => (
           <a key={id} href={`#${id}`}>
             {text}
@@ -43,12 +44,15 @@ export default function Home({ loaderData: { intro, body, toc } }: Route.Compone
       </nav>
       <main id="top">
         <article className="prose" dangerouslySetInnerHTML={{ __html: intro }} />
-        <figure className="demo">
-          <iframe src="/basic/" title="Basic example" loading="lazy" />
-          <figcaption>
-            Basic example · <a href="/basic/">open full</a>
-          </figcaption>
-        </figure>
+        <section className="prose">
+          <h2 id="demo">Demo</h2>
+          <figure className="demo">
+            <iframe src="/basic/" title="Basic example" loading="lazy" />
+            <figcaption>
+              Basic example · <a href="/basic/">open full</a>
+            </figcaption>
+          </figure>
+        </section>
         <article className="prose" dangerouslySetInnerHTML={{ __html: body }} />
       </main>
     </div>
