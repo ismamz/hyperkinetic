@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Runs the engine browser harness (examples/basic/tests/harness) in headless
-// Chrome and prints its results. No extra dependencies: the dev server is the
-// example's Vite, the browser is driven over the DevTools protocol with the
-// WebSocket built into Node.
+// Runs the engine browser harness (tests/browser) in headless Chrome and
+// prints its results. No extra dependencies: the dev server is Vite, the
+// browser is driven over the DevTools protocol with the WebSocket built into
+// Node.
 //
 //   node scripts/browser-checks.mjs            # build engine first: pnpm build
 //   HARNESS_URL=http://localhost:5199/ node scripts/browser-checks.mjs   # reuse a running server
@@ -16,7 +16,6 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
-const example = join(root, "examples/basic");
 const port = 5199;
 const onlyIndex = process.argv.indexOf("--only");
 const only = onlyIndex > -1 ? process.argv[onlyIndex + 1] : null;
@@ -74,11 +73,11 @@ async function startServer() {
     await waitForHttp(url, 5_000);
     return url;
   }
-  const viteBin = join(example, "node_modules/.bin/vite");
+  const viteBin = join(root, "node_modules/.bin/vite");
   const server = spawn(
     viteBin,
-    ["--config", "tests/harness/vite.config.ts", "--port", String(port), "--strictPort"],
-    { cwd: example, stdio: ["ignore", "pipe", "pipe"], detached: true },
+    ["--config", "tests/browser/vite.config.ts", "--port", String(port), "--strictPort"],
+    { cwd: root, stdio: ["ignore", "pipe", "pipe"], detached: true },
   );
   children.push(server);
   let serverLog = "";
