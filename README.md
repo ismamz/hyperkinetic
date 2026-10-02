@@ -23,6 +23,14 @@
 
 ## Installation
 
+**In a existing React Router project:**
+
+```sh
+pnpm add hyperkinetic
+```
+
+**From scratch:**
+
 Start from a React Router app (Vite), then add GSAP and the engine in one command:
 
 ```sh
@@ -33,13 +41,18 @@ pnpm add gsap hyperkinetic
 
 Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothing else.
 
-| Peer | Declared range | Verified with |
-| --- | --- | --- |
-| gsap | `^3.15.0` | 3.15.0 |
-| react | `~19.2.8` | 19.2.8 |
-| react-router | `8.4.0` | 8.4.0 |
+<details>
+  <summary>
+    <small><strong>Versions</strong>: the ranges are not a claim that every version in them was tested.</small>
+  </summary>
 
-<small>The ranges are not a claim that every version in them was tested.</small>
+  | Peer | Declared range | Verified with |
+  | --- | --- | --- |
+  | gsap | `^3.15.0` | 3.15.0 |
+  | react | `~19.2.8` | 19.2.8 |
+  | react-router | `8.4.0` | 8.4.0 |
+
+</details>
 
 ## Mounting the outlet
 
@@ -100,7 +113,7 @@ export const config = {
 > [!INFO]
 > `choreograph` is the only required prop.
 
-### Markup
+### Understanding the markup
 
 The engine renders this, you do not write it:
 
@@ -122,15 +135,15 @@ The engine renders this, you do not write it:
 > [!INFO]
 > At rest a single page carries no transition attribute.
 
-## Styles
+## Adding your own styles
 
 > [!WARNING]
 > Positioning and stacking are yours.
 
-This CSS rule is a good starting point, but you can use other solutions based on your needs:
+These CSS rules are a good starting point, but you can use other solutions based on your needs:
 
 ```css
-/* This CSS rules ensure incoming and outcoming pages are overlapped. */
+/* Ensure incoming and outcoming pages are overlapped. */
 [data-wrapper] {
   display: grid;
 }
@@ -158,7 +171,12 @@ With the first-load transition enabled, server-rendered markup paints before hyd
 
 ### `usePageTransition`
 
-Use `usePageTransition` inside a route component or any child that unmounts with that route. The hook registers a local recipe on the same timeline created by `<AnimatedOutlet />`: `leave` contributes while the current page is going out, and `enter` contributes while the next page is coming in.
+Use `usePageTransition` inside a route component or any child that unmounts with that route. 
+
+The hook registers a local "recipe" on the same timeline created by `<AnimatedOutlet />`: 
+
+* `leave` contributes while the current page is going out,
+* and `enter` contributes while the next page is coming in.
 
 ```tsx
 import { useRef } from "react";
@@ -203,11 +221,9 @@ export function AnimatedTitle({ children }: { children: React.ReactNode }) {
 }
 ```
 
-- `scope` keeps selector-based GSAP work local to that component and lets the fallback skip the subtree it owns.
-- `group` gives the global choreography a way to
-measure when matching exits end with `leaveEnd("titles")`. `enterAt` points the
-component entrance at a label published by `choreograph`; if it is omitted, the
-entrance starts at `0`.
+* `scope` keeps selector-based GSAP work local to that component and lets the fallback skip the subtree it owns (similar to how [useGSAP](https://gsap.com/resources/React/) works).
+* `group` gives the global choreography a way to measure when matching exits end with `leaveEnd("titles")`.
+* `enterAt` points the component entrance at a label published by `choreograph` (if it's omitted, the entrance starts at `0`).
 
 ```ts
 choreograph: ({ tl, leaveEnd }) => {
