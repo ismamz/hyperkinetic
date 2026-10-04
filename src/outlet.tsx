@@ -215,7 +215,12 @@ export function AnimatedOutlet({
         dispatch({ type: "READY", key: incoming.key });
       };
 
-      tl = gsap.timeline({ paused: true });
+      tl = gsap.timeline({
+        paused: true,
+        id: initial
+          ? `initial: ${baseData.next.pathname}`
+          : `${baseData.current.pathname} → ${baseData.next.pathname}`,
+      });
 
       // Components that navigation does not unmount contribute to both
       // directions of every transition, so they are read together with the

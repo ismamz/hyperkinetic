@@ -193,6 +193,15 @@ Two independent flags, both off when omitted. The guard is `process.env.NODE_ENV
 
 **`retainPages`.** When a run completes, the engine marks the incoming page entered but skips the trim and `after`. Both pages stay mounted until the next navigation or unmount. The incoming page loses `data-page-incoming`, so a fixed incoming page returns to the flow while the outgoing one is still there. The outgoing page keeps `data-page-outgoing` and `inert`. The next navigation is not reported as `interrupted` just because two pages are mounted. Replay only drives the timeline: it does not rewind `prepare`, React state, the `useEnterReady` latch, `complete`, `afterEnter` or intros a page ran on its own. Turning the flag off does not release the retained page immediately.
 
+The timeline's animation ID defaults to `initial → /path` on first load and `/from → /to` on navigation, using the pages' pathnames. This is the name shown in the panel; `"page-transition"` identifies the GSDevTools instance. To customize the animation name, assign `tl.vars.id` in `choreograph`, before the panel is created:
+
+```ts
+choreograph: ({ tl }) => {
+  tl.vars.id = "archive → specimen";
+  // Add motion and labels here.
+},
+```
+
 ## Limits
 
 - **One outlet.** Persistent recipes and resources use module-level registries shared by every outlet on the page.
