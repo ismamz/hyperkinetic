@@ -27,7 +27,7 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "prepublishOnly": "pnpm build",
-    "prepare": "simple-git-hooks",
+    "prepare": "pnpm build && simple-git-hooks",
     "dev": "pnpm dev:example",
     "dev:example": "pnpm build && pnpm --filter \"$FILTER\" dev",
     "build:example": "pnpm build && pnpm --filter \"$FILTER\" build",
