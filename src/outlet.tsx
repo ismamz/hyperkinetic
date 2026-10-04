@@ -218,7 +218,7 @@ export function AnimatedOutlet({
       tl = gsap.timeline({
         paused: true,
         id: initial
-          ? `initial → ${baseData.next.pathname}`
+          ? `initial: ${baseData.next.pathname}`
           : `${baseData.current.pathname} → ${baseData.next.pathname}`,
       });
 
