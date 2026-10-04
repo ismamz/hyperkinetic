@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { useEffect, useRef, type ReactNode } from "react";
+import { isValidElement, useEffect, useRef, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { createRoot, type Root } from "react-dom/client";
 import { createMemoryRouter, RouterProvider, type RouteObject } from "react-router";
@@ -98,6 +98,7 @@ export const nextFrame = () =>
 
 export type Fixture = {
   container: HTMLElement;
+  router: ReturnType<typeof createMemoryRouter>;
   navigate: (to: string) => Promise<void>;
   // Resolves when the outlet is back to a single page, i.e. the trim committed.
   settled: (timeout?: number) => Promise<void>;
@@ -107,7 +108,8 @@ export type Fixture = {
 };
 
 type MountOptions = {
-  routes: Record<string, ReactNode>;
+  // Path → element, or a route object (minus `path`) for routes with a loader.
+  routes: Record<string, ReactNode | Omit<RouteObject, "path">>;
   outlet: AnimatedOutletProps;
   // Rendered next to the outlet, inside the router, so it survives navigation.
   persistent?: ReactNode;
@@ -122,10 +124,11 @@ export function mount({ routes, outlet, persistent, initialPath }: MountOptions)
   let props = outlet;
   let root: Root | null = createRoot(container);
 
-  const children: RouteObject[] = Object.entries(routes).map(([path, element]) => ({
-    path,
-    element,
-  }));
+  const children: RouteObject[] = Object.entries(routes).map(([path, route]) =>
+    isValidElement(route) || typeof route !== "object" || route === null
+      ? { path, element: route as ReactNode }
+      : ({ path, ...route } as RouteObject),
+  );
   const router = createMemoryRouter(
     [
       {
@@ -145,6 +148,7 @@ export function mount({ routes, outlet, persistent, initialPath }: MountOptions)
 
   return {
     container,
+    router,
     pages,
     navigate: async (to) => {
       // The router commit is concurrent; the NAVIGATE dispatch lands in a

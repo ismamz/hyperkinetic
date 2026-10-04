@@ -203,5 +203,6 @@ Two independent flags, both off when omitted. The guard is `process.env.NODE_ENV
 - **Resources.** Only `instanceof Promise` values are awaited; a timeout or rejection lets the run continue without cancelling the work.
 - **Exceptions.** An unknown `enterAt` label or a callback that throws during the async run rejects it. The engine reverts the timeline and keeps the incoming page as the only mounted page; completion hooks do not run. Keep callbacks non-throwing. Errors thrown by the synchronous `before` hooks still propagate through React.
 - **Property ownership.** One controller per animated property on an element; do not animate the same property from `choreograph`, a recipe and the fallback at once.
-- **Coverage.** Verified with `examples/basic` on the versions listed under installation. No other combination is claimed.
+- **Loader data on the outgoing page.** The outgoing page keeps the last loader data it had while it was the current route: `useLoaderData()`, `useRouteLoaderData()` and the `loaderData` prop stay on the old record during the overlap. Nothing else is frozen: `useLocation()`, `useSearchParams()`, `useMatches()` and the `matches` prop read the live router. This relies on React Router's internal `UNSAFE_DataRouterDataContext`, validated on the pinned version only.
+- **Coverage.** Verified with `examples/basic` and `examples/loaders` on the versions listed under installation. No other combination is claimed.
 

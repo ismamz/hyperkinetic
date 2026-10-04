@@ -6,6 +6,7 @@ import { useLocation, useOutlet } from "react-router";
 import { useIsoLayoutEffect } from "./utils.js";
 
 import { PageTransitionContext, type PagePhase, type RegisterFn } from "./context.js";
+import { LoaderData } from "./data.js";
 import { fallbackFor } from "./fallback.js";
 import { leaves as buildLeaves } from "./groups.js";
 import { persistentRecipes } from "./persistent.js";
@@ -101,6 +102,7 @@ export function AnimatedOutlet({
       {
         // navIdRef starts at 1.
         key: "page-1",
+        locationKey: location.key,
         outlet,
         pathname: location.pathname,
         // Irrelevant at rest (length === 1 decides the phase).
@@ -123,6 +125,7 @@ export function AnimatedOutlet({
       type: "NAVIGATE",
       next: {
         key: `page-${navIdRef.current}`,
+        locationKey: location.key,
         outlet,
         pathname: location.pathname,
         entered: false,
@@ -422,27 +425,29 @@ export function AnimatedOutlet({
             earlyReady={p.earlyReady}
             registerFor={registerFor}
           >
-            <div
-              data-page=""
-              // The styling API: target the incoming or outgoing page from
-              // CSS. On TRIM the attribute disappears in the same render, so
-              // the styles lift without a flicker.
-              data-page-incoming={isIncoming ? "" : undefined}
-              // First load, not prepared yet: see globals.css.
-              data-page-initial={state.initial && !p.entered ? "" : undefined}
-              data-page-outgoing={isOutgoing ? "" : undefined}
-              // Parallel mounting is an engine invariant: only the incoming
-              // page may receive focus or interaction during the overlap.
-              inert={isOutgoing}
-              ref={(el) => {
-                // Add and remove the element as React mounts it; the effects
-                // read this map to hand out the real containers.
-                if (el) containerMapRef.current.set(p.key, el);
-                else containerMapRef.current.delete(p.key);
-              }}
-            >
-              {p.outlet}
-            </div>
+            <LoaderData locationKey={p.locationKey} currentKey={location.key}>
+              <div
+                data-page=""
+                // The styling API: target the incoming or outgoing page from
+                // CSS. On TRIM the attribute disappears in the same render, so
+                // the styles lift without a flicker.
+                data-page-incoming={isIncoming ? "" : undefined}
+                // First load, not prepared yet: see globals.css.
+                data-page-initial={state.initial && !p.entered ? "" : undefined}
+                data-page-outgoing={isOutgoing ? "" : undefined}
+                // Parallel mounting is an engine invariant: only the incoming
+                // page may receive focus or interaction during the overlap.
+                inert={isOutgoing}
+                ref={(el) => {
+                  // Add and remove the element as React mounts it; the effects
+                  // read this map to hand out the real containers.
+                  if (el) containerMapRef.current.set(p.key, el);
+                  else containerMapRef.current.delete(p.key);
+                }}
+              >
+                {p.outlet}
+              </div>
+            </LoaderData>
           </PageProvider>
         );
       })}

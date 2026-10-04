@@ -5,7 +5,7 @@ Three layers, no extra dependencies. Build the engine first (`pnpm build`); ever
 | Command | What runs |
 | --- | --- |
 | `pnpm test:unit` | `node --test tests/unit/*.test.ts` against `dist/`: reducer, group measurement, fallback selection, resources, persistent registry. |
-| `pnpm test:browser` | `tests/browser` in headless Chrome over the DevTools protocol: lifecycle order and shared timeline, fallback per direction, scopes/cleanup, groups/labels/ready latch, first load, resources, interruption, inert, persistent recipes, the README's recommended snippets, `debug.retainPages`, `debug.devTools`. |
+| `pnpm test:browser` | `tests/browser` in headless Chrome over the DevTools protocol: lifecycle order and shared timeline, fallback per direction, scopes/cleanup, groups/labels/ready latch, first load, resources, interruption, inert, loader data on the outgoing page, persistent recipes, the README's recommended snippets, `debug.retainPages`, `debug.devTools`. |
 | `pnpm test:production` | Production build of `examples/basic` with both debug flags forced on, then asserts the client assets contain the engine and no GSDevTools code. |
 | `pnpm test` | All three. |
 | `pnpm typecheck:browser` | `tsc` over `tests/browser` with its own `tsconfig.json`; the harness is not part of the engine build or the example. |
