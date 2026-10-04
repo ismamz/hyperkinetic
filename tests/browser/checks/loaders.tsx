@@ -1,24 +1,24 @@
 import { useState } from "react";
 import { useLoaderData, useRouteLoaderData } from "react-router";
 
-import { Block, Log, mount, outletProps, sleep, waitFor, type Check } from "../support";
+import { Log, mount, outletProps, waitFor, type Check } from "../support";
 
 type Read = { who: string; mounted: unknown; own: unknown; byId: unknown };
 
 // Records what the route component reads on every render. Reads during the
 // render React Router commits before NAVIGATE are the ones that leak, so the
 // whole history matters, not just the DOM at the end.
-function Probe({ who, log, reads }: { who: string; log: Log; reads: Read[] }) {
+function Probe({ who, reads }: { who: string; reads: Read[] }) {
   const own = useLoaderData() as { id: string } | undefined;
   const byId = useRouteLoaderData("record") as { id: string } | undefined;
   // Which instance this is: the data it mounted with.
   const [mounted] = useState(own?.id);
   reads.push({ who, mounted, own: own?.id, byId: byId?.id });
   return (
-    <Block log={log} who={who}>
+    <div>
       <span data-testid={`${who}-own`}>{own?.id ?? "none"}</span>
       <span data-testid={`${who}-by-id`}>{byId?.id ?? "none"}</span>
-    </Block>
+    </div>
   );
 }
 
@@ -31,18 +31,21 @@ export const loaders: Check = {
     const reads: Read[] = [];
     let version = 0;
     const fx = mount({
-      routes: {
-        "/record/:id": {
+      routes: {},
+      dataRoutes: [
+        {
           id: "record",
+          path: "/record/:id",
           loader: ({ params }) => ({ id: `${params.id}${version ? `-v${version}` : ""}` }),
-          element: <Probe who="record" log={log} reads={reads} />,
+          element: <Probe who="record" reads={reads} />,
         },
-        "/other": {
+        {
           id: "other",
+          path: "/other",
           loader: () => ({ id: "other" }),
-          element: <Probe who="other" log={log} reads={reads} />,
+          element: <Probe who="other" reads={reads} />,
         },
-      },
+      ],
       outlet: outletProps(log, { choreograph: (d) => d.tl.to({}, { duration: 0.3 }) }),
       initialPath: "/record/a",
     });
@@ -88,7 +91,6 @@ export const loaders: Check = {
         "incoming reads its loader",
       );
       await fx.settled();
-      await sleep(16);
 
       // No render of the A instance ever saw another value, not even the
       // render React Router commits before NAVIGATE marks it outgoing.

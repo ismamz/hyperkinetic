@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState, type ReactNode } from "react";
+import { useContext, useState, type ReactNode } from "react";
 import { UNSAFE_DataRouterDataContext as DataRouterDataContext } from "react-router";
 
 type Props = {
@@ -26,9 +26,11 @@ export function LoaderData({ locationKey, currentKey, children }: Props) {
   // and that render must not reach the page's components.
   if (isCurrent && saved !== live) setSaved(live);
 
-  const value = useMemo(() => (isCurrent || !saved ? live : saved), [isCurrent, live, saved]);
-
   // No data router (`<BrowserRouter>` and friends): nothing to protect.
   if (!live) return children;
-  return <DataRouterDataContext.Provider value={value}>{children}</DataRouterDataContext.Provider>;
+  return (
+    <DataRouterDataContext.Provider value={isCurrent ? live : saved}>
+      {children}
+    </DataRouterDataContext.Provider>
+  );
 }

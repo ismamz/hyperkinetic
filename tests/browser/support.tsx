@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { isValidElement, useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { createRoot, type Root } from "react-dom/client";
 import { createMemoryRouter, RouterProvider, type RouteObject } from "react-router";
@@ -108,15 +108,22 @@ export type Fixture = {
 };
 
 type MountOptions = {
-  // Path → element, or a route object (minus `path`) for routes with a loader.
-  routes: Record<string, ReactNode | Omit<RouteObject, "path">>;
+  routes: Record<string, ReactNode>;
+  // Full route objects, for routes that need a loader or an id.
+  dataRoutes?: RouteObject[];
   outlet: AnimatedOutletProps;
   // Rendered next to the outlet, inside the router, so it survives navigation.
   persistent?: ReactNode;
   initialPath?: string;
 };
 
-export function mount({ routes, outlet, persistent, initialPath }: MountOptions): Fixture {
+export function mount({
+  routes,
+  dataRoutes = [],
+  outlet,
+  persistent,
+  initialPath,
+}: MountOptions): Fixture {
   const container = document.createElement("div");
   container.className = "fixture";
   document.body.appendChild(container);
@@ -124,11 +131,10 @@ export function mount({ routes, outlet, persistent, initialPath }: MountOptions)
   let props = outlet;
   let root: Root | null = createRoot(container);
 
-  const children: RouteObject[] = Object.entries(routes).map(([path, route]) =>
-    isValidElement(route) || typeof route !== "object" || route === null
-      ? { path, element: route as ReactNode }
-      : ({ path, ...route } as RouteObject),
-  );
+  const children: RouteObject[] = [
+    ...Object.entries(routes).map(([path, element]) => ({ path, element })),
+    ...dataRoutes,
+  ];
   const router = createMemoryRouter(
     [
       {
