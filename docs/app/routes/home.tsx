@@ -70,14 +70,13 @@ export default function Home({ loaderData: { intro, body, toc } }: Route.Compone
   }, [toc]);
 
   return (
-    <div className="relative mx-auto grid w-full max-w-[66rem] grid-cols-[minmax(0,46rem)_14rem] gap-16 px-4 pb-32 max-[52rem]:block">
-      <img
-        className="fixed left-[max(1rem,calc((100vw-66rem)/2-6rem))] top-11 size-15 shrink-0 dark:invert max-[66rem]:hidden"
-        src="/favicon.svg"
-        alt=""
-      />
+    <div className="relative mx-auto grid w-full max-w-264 grid-cols-[minmax(0,46rem)_14rem] gap-16 px-4 pb-32 max-[52rem]:block">
+      <picture className="fixed left-[max(1rem,calc((100vw-66rem)/2-6rem))] top-11 size-15 shrink-0 max-[66rem]:hidden">
+        <source media="(prefers-color-scheme: dark)" srcSet="/favicon-dark.svg" />
+        <img src="/favicon.svg" alt="" />
+      </picture>
       <nav
-        className="sticky top-[60px] col-start-2 row-start-1 flex h-fit flex-col gap-1.5 text-sm text-neutral-500 max-[52rem]:hidden"
+        className="sticky top-15 col-start-2 row-start-1 flex h-fit flex-col gap-1.5 text-sm text-neutral-500 max-[52rem]:hidden"
         aria-label="Sections"
       >
         <a
