@@ -55,10 +55,13 @@ Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothin
 
 ## Mounting the outlet
 
-* Replace the [`<Outlet />`](https://reactrouter.com/api/components/Outlet) of a layout with `<AnimatedOutlet />`. Render exactly one.
+* Replace the [`<Outlet />`](https://reactrouter.com/api/components/Outlet) of a layout with `<AnimatedOutlet />`. Render exactly one.<sup>1</sup>
 * Keep navigating with React Router's `Link` and `navigate`.
 * Do not mount `<ScrollRestoration />` next to it: scroll policy belongs in the lifecycle hooks.
 * Create your `transition.ts` file for global configuration.
+
+> [!WARNING]
+> <sup>1</sup> One outlet, at the root or in a nested layout. Several animated outlets are not supported. See [`examples/nested`](https://github.com/ismamz/hyperkinetic/tree/main/examples/nested).
 
 This is [`examples/basic`](./examples/basic) (`app/root.tsx` and `app/lib/transition.ts`):
 

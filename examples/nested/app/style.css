@@ -1,0 +1,17 @@
+body {
+  margin: 2rem;
+  font-family: system-ui, sans-serif;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+}
+
+[data-wrapper] {
+  display: grid;
+}
+
+[data-page] {
+  grid-area: 1 / 1;
+}
