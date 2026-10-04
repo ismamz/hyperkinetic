@@ -25,7 +25,7 @@ export type HookFn = (data: HookData) => void;
 // writes tweens at a position, and it plays once they are all done.
 //
 // `ready`: releases the `useEnterReady()` latch on the incoming page before the
-// animation ends — local intros can start while the outgoing page fades out.
+// animation ends, so local intros can start while the outgoing page fades out.
 // Idempotent, optional.
 export type ChoreographData = HookData & {
   tl: gsap.core.Timeline;
@@ -36,7 +36,7 @@ export type ChoreographData = HookData & {
 
 // The global coordinator: it writes the whole navigation on `data.tl` with the
 // GSAP API and publishes the labels every local recipe positions itself at. It
-// returns nothing — the provider owns the timeline's lifecycle (play, await,
+// returns nothing: the provider owns the timeline's lifecycle (play, await,
 // kill).
 export type ChoreographFn = (data: ChoreographData) => void;
 
@@ -44,8 +44,6 @@ export type ChoreographFn = (data: ChoreographData) => void;
 // (freeze/reset scroll); `afterEnter` still runs with both pages mounted.
 // `after` runs once the outgoing page is gone, before the next paint: the first
 // moment the document has its final height.
-// `beforeLeave`/`afterLeave` were dropped: in parallel mode they duplicated the
-// generic pair. Restore them if a sequential mode ever lands.
 export type AnimatedOutletProps = {
   choreograph: ChoreographFn;
   debug?: { devTools?: boolean; retainPages?: boolean };

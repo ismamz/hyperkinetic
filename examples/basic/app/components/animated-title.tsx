@@ -34,7 +34,7 @@ export function AnimatedTitle({
 
   usePageTransition({
     group: "outro",
-    // La receta se suma al mismo timeline que hace el crossfade de las páginas.
+    // The recipe joins the same timeline that crossfades the pages.
     enter: (tl, { reduced }) => {
       const words = split.current?.words;
       if (!words?.length) return;

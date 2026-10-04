@@ -43,7 +43,7 @@ export function reducer(state: State, action: Action): State {
   switch (action.type) {
     // NAVIGATE: array becomes [outgoing, incoming]. The outgoing one is the
     // last entry with its outlet swapped for `prevOutlet`, the tree frozen
-    // before React Router re-rendered — otherwise it would already show the new
+    // before React Router re-rendered. Otherwise it would already show the new
     // route, since useOutlet() returns the new one by now.
     case "NAVIGATE": {
       const last = state.pages[state.pages.length - 1];
@@ -71,7 +71,7 @@ export function reducer(state: State, action: Action): State {
       pages[pages.length - 1] = { ...last, entered: true };
       return { ...state, pages };
     }
-    // ENTERED_AND_TRIM: marks the incoming page `entered` AND drops the
+    // ENTERED_AND_TRIM: marks the incoming page `entered` and drops the
     // outgoing one in a single commit. Atomic on purpose: as two updates React
     // gives no batching guarantee after an await.
     case "ENTERED_AND_TRIM": {

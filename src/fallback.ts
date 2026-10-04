@@ -17,7 +17,7 @@ function collect(node: Element, excluded: Element[], targets: Element[]) {
   if (excluded.includes(node)) return;
   // A mixed ancestor is never animated: opacity or transform on it would reach
   // the excluded scope anyway. Its own background, borders and direct text stay
-  // static — the engine does not wrap or move nodes to cover them.
+  // static: the engine does not wrap or move nodes to cover them.
   if (!excluded.some((element) => node.contains(element))) {
     targets.push(node);
     return;

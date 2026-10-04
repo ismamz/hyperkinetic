@@ -77,9 +77,9 @@
 }
 
 /*
- * Durante la transición, las dos páginas comparten la misma celda del grid.
- * `grid-area` las superpone sin sacarlas del layout por sí solo; también define
- * la posición estática desde la que se ubica la página entrante cuando es fixed.
+ * During a transition both pages share the same grid cell. `grid-area` overlaps
+ * them without taking them out of the layout, and it sets the static position
+ * the incoming page is placed from once it becomes fixed.
  */
 [data-wrapper] {
   display: grid;
@@ -90,12 +90,12 @@
 }
 
 /*
- * La entrante sale temporalmente del flujo con `position: fixed`: así no hereda
- * el scroll de la saliente y puede empezar desde el inicio de la página. Como
- * su `top` queda en `auto`, el navegador toma el inicio de su celda del grid;
- * el área compartida mantiene esa posición alineada con el wrapper, incluido
- * el espacio que ocupa el header. Sin `grid-area`, las páginas se apilarían y
- * la entrante ya no tendría ese punto de referencia para el crossfade.
+ * The incoming page leaves the flow with `position: fixed`, so it does not
+ * inherit the outgoing page's scroll and can start from the top. With `top`
+ * left at `auto`, the browser uses the start of its grid cell; the shared area
+ * keeps that position aligned with the wrapper, header space included. Without
+ * `grid-area` the pages would stack and the incoming one would lose that
+ * reference point for the crossfade.
  */
 [data-page-incoming] {
   position: fixed;
