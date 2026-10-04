@@ -7,15 +7,11 @@ type Props = {
   children: ReactNode;
 };
 
-// The frozen outlet keeps the outgoing page's elements, but its components
-// still read React Router's live data context, so `useLoaderData()`,
-// `useRouteLoaderData()` and the `loaderData` prop would flip to the incoming
-// route mid-transition. This provider re-publishes the last value the page saw
-// while it was the current navigation.
-//
-// Internal API: `UNSAFE_DataRouterDataContext` is what the public hooks read in
-// React Router 8.4.0, the version pinned as a peer dependency. Revisit on every
-// router upgrade; `tests/browser/checks/loaders.tsx` is the regression.
+// Re-publishes the last data context a page saw while it was the current
+// navigation, so the outgoing page's `useLoaderData()`, `useRouteLoaderData()`
+// and `loaderData` prop do not flip to the incoming route mid-transition.
+// `UNSAFE_DataRouterDataContext` is what those hooks read in React Router
+// 8.4.0, the pinned peer version. `tests/browser/checks/loaders.tsx` guards upgrades.
 export function LoaderData({ locationKey, currentKey, children }: Props) {
   const live = useContext(DataRouterDataContext);
   const isCurrent = locationKey === currentKey;
