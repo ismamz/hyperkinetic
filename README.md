@@ -60,7 +60,7 @@ Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothin
 * Do not mount `<ScrollRestoration />` next to it: scroll policy belongs in the lifecycle hooks.
 * Create your `transition.ts` file for global configuration.
 
-Mount one `AnimatedOutlet` at the root or in a nested layout. It animates that layout's child routes; multiple independently animated outlets are not supported. See [`examples/nested`](./examples/nested).
+Mount one `AnimatedOutlet` at the root or in a nested layout. It animates that layout's child routes. Multiple independently animated outlets are not supported. See [`examples/nested`](./examples/nested).
 
 This is [`examples/basic`](./examples/basic) (`app/root.tsx` and `app/lib/transition.ts`):
 
