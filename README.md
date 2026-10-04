@@ -11,14 +11,13 @@
 <p align="center">Parallel page transitions for <a class="whitespace-nowrap" href="https://reactrouter.com/" target="_blank">React Router</a> on one shared <a href="https://gsap.com/" target="_blank">GSAP</a> timeline.</p>
 
 > [!CAUTION]
-> This is an experimental project in alpha stage. Use with caution.
+> This is an experimental project in alpha stage. Use with caution. API will change.
 
 ## Features
 
 * **Parallel**: outgoing and incoming routes stay mounted together while they animate.
 * **Single timeline**: every navigation creates one paused GSAP timeline.
-* **Engine**: owns page lifetimes and timeline playback.
-* **Application**: owns motion, scroll, positioning and layers.
+* **Clear ownership**: the engine handles lifetimes, you handle motion.
 * **Zero dependencies**: React, React Router and GSAP are peer dependencies.
 
 ## Installation
@@ -61,7 +60,7 @@ Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothin
 * Do not mount `<ScrollRestoration />` next to it: scroll policy belongs in the lifecycle hooks.
 * Create your `transition.ts` file for global configuration.
 
-This is `examples/basic` (`app/root.tsx` and `app/lib/transition.ts`):
+This is [`examples/basic`](./examples/basic) (`app/root.tsx` and `app/lib/transition.ts`):
 
 ```tsx
 // app/root.tsx
@@ -135,7 +134,7 @@ The engine renders this, you do not write it:
 | `data-page-initial` | On the first page from server render until the first run has prepared it. <br/> _Only when `initial` is enabled (the default)._ |
 
 > [!NOTE]
-> At rest a single page carries no transition attribute.
+> When idle, a single page has no transition attribute.
 
 ## Adding your own styles
 
@@ -166,7 +165,8 @@ These CSS rules are a starting point. You can use other solutions based on your 
 }
 ```
 
-With the first-load transition enabled, server-rendered markup paints before hydration prepares it. If you hide `[data-page-initial]` in CSS, do it inside `@media (scripting: enabled)` so a no-JS document stays readable.
+> [!TIP]
+> With the first-load transition enabled (`initial: true`), server-rendered markup paints before hydration prepares it. If you hide `[data-page-initial]` in CSS, do it inside `@media (scripting: enabled)` so a no-JS document stays readable.
 
 ## Component animations
 
@@ -176,8 +176,8 @@ Use `usePageTransition` inside a route component or any child that unmounts with
 
 The hook registers a local _recipe_ on the same timeline created by `<AnimatedOutlet />`: 
 
-* `leave` contributes while the current page is going out
-* `enter` contributes while the next page is coming in
+* `leave` contributes while the current page is going out.
+* `enter` contributes while the next page is coming in.
 
 ```tsx
 // app/components/animated-title.tsx
