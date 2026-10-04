@@ -226,8 +226,9 @@ export function AnimatedTitle({ children }: { children: React.ReactNode }) {
 
 ### `usePersistentTransition`
 
-Use this hook for UI rendered beside `<AnimatedOutlet />`. The component stays
-mounted, so its `leave` and `enter` recipes run on every transition:
+Use this hook for UI rendered beside `<AnimatedOutlet />`.
+
+The component stays mounted, so its `leave` and `enter` recipes run on every transition:
 
 ```tsx
 import { useRef } from "react";
@@ -257,10 +258,6 @@ export function PersistentComponent() {
 ## API
 
 The full runtime reference lives in [docs/API.md](https://github.com/ismamz/hyperkinetic/blob/main/docs/API.md).
-
-## Development
-
-* Docs: `pnpm dev:docs`
 
 ---
 
