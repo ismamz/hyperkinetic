@@ -31,7 +31,7 @@ export function AnimatedOutlet({
   // Feeds unique keys, one per rendered page.
   const navIdRef = useRef(1);
   // Previous render's outlet. On a route change `outlet` is already the new
-  // one, but the outgoing page needs the old tree — this ref holds it.
+  // one, but the outgoing page needs the old tree, so this ref holds it.
   const prevOutletRef = useRef<React.ReactNode>(outlet);
   // location.key changes on every navigation, same URL included: real
   // navigations only, no transitions from ordinary re-renders.
@@ -112,7 +112,7 @@ export function AnimatedOutlet({
     ],
   }));
 
-  // Navigation detector, keyed on `location.key` — the only real trigger. The
+  // Navigation detector, keyed on `location.key`, the only real trigger. The
   // `lastLocKeyRef` check guards against StrictMode's double invocation. Layout
   // effect, not a plain one: the dispatch lands pre-paint, so the new page is
   // never painted without the old one beside it.
@@ -143,8 +143,6 @@ export function AnimatedOutlet({
 
   // The one orchestrator, once per navigation (`state.gen`). Layout effect, so
   // the frame with both pages is never painted before the `before` hooks ran.
-  // Two effects were merged here: same deps, same container lookup, and the
-  // temporal order now reads in a single body.
   useIsoLayoutEffect(() => {
     // First load runs the same choreography with no outgoing page. `state.
     // initial` is the reducer's one-shot flag: the opt-out clears it upfront
@@ -188,19 +186,9 @@ export function AnimatedOutlet({
     let cancelled = false;
     const isStale = () => gen !== genRef.current;
 
-    // Order of a run, one timeline for everything:
-    //   1. prepare: persistent recipes, the incoming page's, the fallback's —
-    //      before the first painted frame.
-    //   2. wait for registered resources, both pages mounted.
-    //   3. prepare whatever mounted during that wait.
-    //   4. exits: fallback, persistent, local recipes; each group's end
-    //      measured.
-    //   5. global choreography: its effects and the labels it publishes.
-    //   6. entrances: fallback, persistent, local recipes, each at its label.
-    //   7. play; then `complete`, afterEnter/after and the trim.
-    //
-    // `run` is async because it awaits the timeline, and React effects cannot
-    // be async themselves.
+    // One timeline for everything; the order of a run is documented in
+    // docs/API.md ("Order of a run"). `run` is async because it awaits the
+    // timeline, and React effects cannot be async themselves.
     const run = async () => {
       // Finish DOM preparation, including StrictMode's effect replay, before
       // capturing tween targets. A replay can replace SplitText's character
@@ -253,7 +241,7 @@ export function AnimatedOutlet({
       // Fallback targets are resolved once per direction, from the registered
       // scopes of each page. Nothing walks the DOM again while the timeline runs.
       // The selection happens before the wait, so a scope registered later does
-      // not change it — the Suspense limit already documented for the fallback.
+      // not change it. This is the Suspense limit documented for the fallback.
       const fallback = propsRef.current.fallback;
       const leaveTargets = initial
         ? []
@@ -354,7 +342,7 @@ export function AnimatedOutlet({
         return;
       }
 
-      // Atomic: marks the incoming page `entered` AND drops the outgoing one in
+      // Atomic: marks the incoming page `entered` and drops the outgoing one in
       // a single commit, so the data attributes and any CSS bound to them go
       // away in the same frame, without a flash. `after` waits for that commit.
       afterRef.current = { key: incoming.key, data };
