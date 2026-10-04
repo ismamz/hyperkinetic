@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  padding: 2rem;
+  background: #f6f4ef;
+  color: #242424;
+  font:
+    1rem/1.5 system-ui,
+    sans-serif;
+}
+
+main {
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+a {
+  color: inherit;
+}
+
+a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+[data-wrapper] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 1rem;
+}
+
+[data-page] {
+  padding: 1.5rem;
+  border: 1px solid;
+  background: white;
+}
+
+[data-page]::before {
+  content: "Current page";
+}
+
+[data-page-outgoing]::before {
+  content: "Outgoing page";
+}
+
+[data-page-incoming]::before {
+  content: "Incoming page";
+}
+
+dd {
+  margin: 0 0 1rem;
+  font-weight: 700;
+}

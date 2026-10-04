@@ -5,6 +5,7 @@ import { inert } from "./checks/inert";
 import { initial } from "./checks/initial";
 import { interrupt } from "./checks/interrupt";
 import { lifecycle } from "./checks/lifecycle";
+import { loaders } from "./checks/loaders";
 import { persistent } from "./checks/persistent";
 import { readme } from "./checks/readme";
 import { resources } from "./checks/resources";
@@ -21,6 +22,7 @@ const checks: Check[] = [
   resources,
   interrupt,
   inert,
+  loaders,
   persistent,
   readme,
   debugRetain,

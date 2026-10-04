@@ -2,10 +2,14 @@
 // incoming), one at rest.
 // `key`: stable per navigation, used as the React key so React never reuses a
 // node across pages.
+// `locationKey`: the router navigation this page belongs to. Compared with
+// the live `location.key` to decide whether the page still reads live loader
+// data or its snapshot.
 // `outlet`: the React Router tree frozen for that page.
 // `pathname`: handed to the hooks for convenience.
 export type PageEntry = {
   key: string;
+  locationKey: string;
   outlet: React.ReactNode;
   pathname: string;
   // Entrance finished. Lives in the entry, not in an outside Set, so it dies

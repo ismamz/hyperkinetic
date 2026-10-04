@@ -98,6 +98,7 @@ export const nextFrame = () =>
 
 export type Fixture = {
   container: HTMLElement;
+  router: ReturnType<typeof createMemoryRouter>;
   navigate: (to: string) => Promise<void>;
   // Resolves when the outlet is back to a single page, i.e. the trim committed.
   settled: (timeout?: number) => Promise<void>;
@@ -108,13 +109,21 @@ export type Fixture = {
 
 type MountOptions = {
   routes: Record<string, ReactNode>;
+  // Full route objects, for routes that need a loader or an id.
+  dataRoutes?: RouteObject[];
   outlet: AnimatedOutletProps;
   // Rendered next to the outlet, inside the router, so it survives navigation.
   persistent?: ReactNode;
   initialPath?: string;
 };
 
-export function mount({ routes, outlet, persistent, initialPath }: MountOptions): Fixture {
+export function mount({
+  routes,
+  dataRoutes = [],
+  outlet,
+  persistent,
+  initialPath,
+}: MountOptions): Fixture {
   const container = document.createElement("div");
   container.className = "fixture";
   document.body.appendChild(container);
@@ -122,10 +131,10 @@ export function mount({ routes, outlet, persistent, initialPath }: MountOptions)
   let props = outlet;
   let root: Root | null = createRoot(container);
 
-  const children: RouteObject[] = Object.entries(routes).map(([path, element]) => ({
-    path,
-    element,
-  }));
+  const children: RouteObject[] = [
+    ...Object.entries(routes).map(([path, element]) => ({ path, element })),
+    ...dataRoutes,
+  ];
   const router = createMemoryRouter(
     [
       {
@@ -145,6 +154,7 @@ export function mount({ routes, outlet, persistent, initialPath }: MountOptions)
 
   return {
     container,
+    router,
     pages,
     navigate: async (to) => {
       // The router commit is concurrent; the NAVIGATE dispatch lands in a

@@ -5,6 +5,7 @@ import { reducer, type PageEntry, type State } from "../../dist/reducer.js";
 
 const page = (key: string, extra: Partial<PageEntry> = {}): PageEntry => ({
   key,
+  locationKey: `loc-${key}`,
   outlet: null,
   pathname: `/${key}`,
   entered: false,
@@ -28,6 +29,12 @@ test("NAVIGATE freezes the outgoing outlet and clears initial", () => {
       ["page-1", "frozen"],
       ["page-2", null],
     ],
+  );
+  // The outgoing page keeps the navigation it belongs to; the loader-data
+  // snapshot is keyed on it.
+  assert.deepEqual(
+    next.pages.map((p) => p.locationKey),
+    ["loc-page-1", "loc-page-2"],
   );
 });
 
