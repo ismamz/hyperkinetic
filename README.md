@@ -60,7 +60,8 @@ Peer dependencies: `gsap`, `react` and `react-router`. The engine imports nothin
 * Do not mount `<ScrollRestoration />` next to it: scroll policy belongs in the lifecycle hooks.
 * Create your `transition.ts` file for global configuration.
 
-<sup>1</sup> At the root or in a nested layout: it animates that layout's child routes. Several independently animated outlets are not supported. See [`examples/nested`](https://github.com/ismamz/hyperkinetic/tree/main/examples/nested).
+> [!WARNING]
+> <sup>1</sup> At the root or in a nested layout: it animates that layout's child routes. Several independently animated outlets are not supported. See [`examples/nested`](https://github.com/ismamz/hyperkinetic/tree/main/examples/nested).
 
 This is [`examples/basic`](./examples/basic) (`app/root.tsx` and `app/lib/transition.ts`):
 
