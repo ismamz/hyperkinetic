@@ -5,6 +5,7 @@ import type { Route } from "./+types/root";
 import "./globals.css";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", href: "/favicon.ico", sizes: "any" },
   {
     rel: "icon",
     type: "image/svg+xml",
@@ -17,7 +18,6 @@ export const links: Route.LinksFunction = () => [
     href: "/favicon-dark.svg",
     media: "(prefers-color-scheme: dark)",
   },
-  { rel: "icon", href: "/favicon.ico", sizes: "any" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
   {
