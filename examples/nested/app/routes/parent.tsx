@@ -7,8 +7,8 @@ const transition = {
   beforeEnter: ({ next }) => {
     gsap.set(next.container, { opacity: 0 });
   },
-  choreograph: ({ tl, current, next, reduced }) => {
-    const duration = reduced ? 0 : 0.6;
+  choreograph: ({ tl, current, next }) => {
+    const duration = 0.6;
     tl.to(current.container, { opacity: 0, duration }, 0);
     tl.to(next.container, { opacity: 1, duration }, 0);
   },
