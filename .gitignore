@@ -8,3 +8,7 @@ build/
 .env
 .env.*
 !.env.example
+
+# Worktrees that agents create inside the repo
+.worktrees/
+.claude/worktrees/
