@@ -13,6 +13,8 @@
 > [!CAUTION]
 > This is an experimental project in alpha stage. Use with caution. API will change.
 
+Read the [Codrops tutorial](https://tympanus.net/codrops/2026/10/08/building-parallel-page-transitions-with-gsap-and-react-router/) for a walkthrough of parallel page transitions with GSAP and React Router.
+
 ## Features
 
 * **Parallel**: outgoing and incoming routes stay mounted together while they animate.
